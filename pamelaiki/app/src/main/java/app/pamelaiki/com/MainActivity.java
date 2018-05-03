@@ -21,35 +21,18 @@ import java.util.ArrayList;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            listView = (ListView)findViewById(R.id.listView0);
+            listView = (ListView) findViewById(R.id.listView0);
             ArrayList<sMarket> sMarketList = new ArrayList<>();
-            sMarketList.add(new sMarket("Περιστερι", "23km", 0 ,0));
-            sMarketList.add(new sMarket("Αθηνα", "25km", 0 ,0));
-            sMarketList.add(new sMarket("Χαιδαρι", "33km", 0 ,0));
-            sMarketList.add(new sMarket("Νικαια", "40km", 0 ,0));
+            sMarketList.add(new sMarket("Περιστερι", "23km", 0, 0));
+            sMarketList.add(new sMarket("Αθηνα", "25km", 0, 0));
+            sMarketList.add(new sMarket("Χαιδαρι", "33km", 0, 0));
+            sMarketList.add(new sMarket("Νικαια", "40km", 0, 0));
 
-<<<<<<< HEAD
-    private ListView listView;
-    private sMarketAdapter sMAdapter;
-    private  TextView greetText;
-=======
-            sMAdapter = new sMarketAdapter(this,sMarketList);
+
+            sMAdapter = new sMarketAdapter(this, sMarketList);
             listView.setAdapter(sMAdapter);
         }
->>>>>>> 9636a2a2736769c0ab85878d223e8bd3e070bc0d
-
-
-<<<<<<< HEAD
-
-
-        listView = (ListView)findViewById(R.id.listView0);
-        ArrayList<sMarket> sMarketList = new ArrayList<>();
-        sMarketList.add(new sMarket("Περιστερι", "23km", 0 ,0));
-        sMarketList.add(new sMarket("Αθηνα", "25km", 0 ,0));
-        sMarketList.add(new sMarket("Χαιδαρι", "33km", 0 ,0));
-        sMarketList.add(new sMarket("Νικαια", "40km", 0 ,0));
-=======
->>>>>>> 9636a2a2736769c0ab85878d223e8bd3e070bc0d
+    }
 
 
 
