@@ -21,4 +21,58 @@
         tools:layout_editor_absoluteX="6dp"
         tools:layout_editor_absoluteY="9dp" />
 
+
+
+    <!--
+        <RelativeLayout
+            android:layout_width="123dp"
+            android:layout_height="495dp"
+
+            tools:context=".MainActivity"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="64dp">
+
+
+            <EditText
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="192dp"
+                android:focusable="true"
+                android:hint="Enter Username"
+                android:inputType="textVisiblePassword|textNoSuggestions"
+                android:textColorHint="@color/colorPrimary" />
+
+
+            <EditText
+                android:id="@+id/PasswordText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/UserText"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignRight="@+id/UserText"
+                android:layout_below="@+id/UserText"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword"
+
+                android:textColorHint="@color/colorPrimary" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/PasswordText"
+                android:layout_centerHorizontal="true"
+                android:text="@string/login"
+                android:theme="@style/AppTheme" />
+
+
+        </RelativeLayout>
+
+     -->
 </android.support.constraint.ConstraintLayout>
