@@ -6,7 +6,12 @@
     android:layout_height="match_parent"
     tools:context="app.pamelaiki.com.MainActivity">
 
-
+    <ListView
+        android:id="@+id/listView0"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 
 
 
