@@ -3,6 +3,7 @@ package app.pamelaiki.com;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,18 +21,18 @@ import java.util.ArrayList;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            listView = (ListView)findViewById(R.id.listView0);
+            listView = (ListView) findViewById(R.id.listView0);
             ArrayList<sMarket> sMarketList = new ArrayList<>();
-            sMarketList.add(new sMarket("Περιστερι", "23km", 0 ,0));
-            sMarketList.add(new sMarket("Αθηνα", "25km", 0 ,0));
-            sMarketList.add(new sMarket("Χαιδαρι", "33km", 0 ,0));
-            sMarketList.add(new sMarket("Νικαια", "40km", 0 ,0));
+            sMarketList.add(new sMarket("Περιστερι", "23km", 0, 0));
+            sMarketList.add(new sMarket("Αθηνα", "25km", 0, 0));
+            sMarketList.add(new sMarket("Χαιδαρι", "33km", 0, 0));
+            sMarketList.add(new sMarket("Νικαια", "40km", 0, 0));
 
-            sMAdapter = new sMarketAdapter(this,sMarketList);
+
+            sMAdapter = new sMarketAdapter(this, sMarketList);
             listView.setAdapter(sMAdapter);
         }
-
-
+    }
 
 
 
