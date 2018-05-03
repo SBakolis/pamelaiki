@@ -6,26 +6,32 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import android.widget.ListView;
 
-    private ListView listView;
-    private sMarketAdapter sMAdapter;
+import java.util.ArrayList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public class MainActivity extends AppCompatActivity {
 
-        listView = (ListView)findViewById(R.id.listView0);
-        ArrayList<sMarket> sMarketList = new ArrayList<>();
-        sMarketList.add(new sMarket("Περιστερι", "23km", 0 ,0));
-        sMarketList.add(new sMarket("Αθηνα", "25km", 0 ,0));
-        sMarketList.add(new sMarket("Χαιδαρι", "33km", 0 ,0));
-        sMarketList.add(new sMarket("Νικαια", "40km", 0 ,0));
+        private ListView listView;
+        private sMarketAdapter sMAdapter;
 
-        sMAdapter = new sMarketAdapter(this,sMarketList);
-        listView.setAdapter(sMAdapter);
-    }
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            listView = (ListView)findViewById(R.id.listView0);
+            ArrayList<sMarket> sMarketList = new ArrayList<>();
+            sMarketList.add(new sMarket("Περιστερι", "23km", 0 ,0));
+            sMarketList.add(new sMarket("Αθηνα", "25km", 0 ,0));
+            sMarketList.add(new sMarket("Χαιδαρι", "33km", 0 ,0));
+            sMarketList.add(new sMarket("Νικαια", "40km", 0 ,0));
+
+            sMAdapter = new sMarketAdapter(this,sMarketList);
+            listView.setAdapter(sMAdapter);
+        }
 
 
-}
+
+
+
