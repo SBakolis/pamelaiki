@@ -9,17 +9,5 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-
-
-    }
-
-    EditText Address=(EditText) findViewById(R.id.Address);
-    public void  FindMarkets(View view) {  Intent nogps=new Intent(MainActivity.this,FleeMarket.class);
-        nogps.putExtra("address",Address.getText().toString());
-        startActivity(nogps);}
 }
