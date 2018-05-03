@@ -8,24 +8,24 @@ import android.os.Bundle;
 
 public class Gps {
 
+    private FusedLocationProviderClient mFusedLocationClient;
 
-    // Acquire a reference to the system Location Manager
-    LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-    // Define a listener that responds to location updates
-    LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            // Called when a new location is found by the network location provider.
-            makeUseOfNewLocation(location);
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // ...
 
-        public void onStatusChanged(String provider, int status, Bundle extras) {}
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                        }
+                    }
+                });
+    }
 
-        public void onProviderEnabled(String provider) {}
-
-        public void onProviderDisabled(String provider) {}
-    };
-
-// Register the listener with the Location Manager to receive location updates
-locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 }
