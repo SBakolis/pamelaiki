@@ -3,6 +3,7 @@ package app.pamelaiki.com;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -10,11 +11,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private sMarketAdapter sMAdapter;
+    private  TextView greetText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         listView = (ListView)findViewById(R.id.listView0);
         ArrayList<sMarket> sMarketList = new ArrayList<>();
