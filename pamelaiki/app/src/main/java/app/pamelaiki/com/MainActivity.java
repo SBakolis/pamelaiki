@@ -10,11 +10,16 @@ import java.util.ArrayList;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
-    public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
         private ListView listView;
         private sMarketAdapter sMAdapter;
+        private Calendar sCalendar;
+        public String dayLongName;
+        private TextView greetText;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,12 @@ import java.util.ArrayList;
 
             sMAdapter = new sMarketAdapter(this, sMarketList);
             listView.setAdapter(sMAdapter);
+
+            sCalendar = Calendar.getInstance();
+            dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
+
+            greetText = (TextView) findViewById(R.id.greetText);
+            greetText.setText("Καλημέρα, σήμερα " + dayLongName + " οι κοντινότερες αγορές είναι:");
         }
     }
 
