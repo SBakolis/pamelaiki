@@ -1,6 +1,7 @@
 package app.pamelaiki.com;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,6 +24,8 @@ public class Gps {
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
+                            Intent  error=new Intent(this,MainActivity.class);
+                             startActivity(error);
                         }
                     }
                 });
