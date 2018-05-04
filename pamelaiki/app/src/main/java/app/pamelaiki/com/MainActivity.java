@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+            final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-            if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                 buildAlertMessageNoGps();
             }
 
@@ -56,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 final AlertDialog alert = builder.create();
                 alert.show();
             }
-            protected void onCreate(Bundle savedInstanceState) {
-                // ...
+
 
                 mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
                 mFusedLocationClient.getLastLocation()
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         });
-            }
+
 
             listView = (ListView) findViewById(R.id.listView0);
             ArrayList<sMarket> sMarketList = new ArrayList<>();
