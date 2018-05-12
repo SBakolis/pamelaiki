@@ -15,16 +15,28 @@
     <ListView
         android:id="@+id/listView0"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="394dp"
+        android:layout_below="@+id/greetText"
         android:paddingTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_below="@+id/greetText"
         tools:layout_editor_absoluteY="90dp" />
 
     <TextView
         android:id="@+id/greetText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="9dp" />
+    <TextView
+        android:id="@+id/locationtest"
+        android:layout_below="@id/listView0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView"
