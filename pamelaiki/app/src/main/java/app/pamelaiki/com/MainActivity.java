@@ -1,11 +1,15 @@
 package app.pamelaiki.com;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
 
             listView = (ListView) findViewById(R.id.listView0);
-            ArrayList<sMarket> sMarketList = new ArrayList<>();
+            final ArrayList<sMarket> sMarketList = new ArrayList<>();
             sMarketList.add(new sMarket("Περιστερι", "23km", 0, 0));
             sMarketList.add(new sMarket("Αθηνα", "25km", 0, 0));
             sMarketList.add(new sMarket("Χαιδαρι", "33km", 0, 0));
@@ -51,6 +55,20 @@ public class MainActivity extends AppCompatActivity {
 
             sMAdapter = new sMarketAdapter(this, sMarketList);
             listView.setAdapter(sMAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    sMarket selectedsMarket = sMarketList.get(i);
+                    float selectedLatt = selectedsMarket.getlatt();
+                    float selectedLong = selectedsMarket.getlongt();
+                    String locationInfo = selectedLatt + "," + selectedLong;
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+locationInfo+"&mode=d" );
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
+                }
+            });
 
             sCalendar = Calendar.getInstance();
             dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
