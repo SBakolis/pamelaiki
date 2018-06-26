@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         private FusedLocationProviderClient mFusedLocationClient;
         public double deviceLatt;
         public double deviceLong;
-
+        public Location marketLoc;
+        public int n;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -40,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
 
             listView = (ListView) findViewById(R.id.listView0);
             final ArrayList<sMarket> sMarketList = new ArrayList<>();
-            sMarketList.add(new sMarket("Περιστερι", "23km", 0, 0));
-            sMarketList.add(new sMarket("Αθηνα", "25km", 0, 0));
-            sMarketList.add(new sMarket("Χαιδαρι", "33km", 0, 0));
-            sMarketList.add(new sMarket("Νικαια", "40km", 0, 0));
+            sMarketList.add(new sMarket("Περιστερι", "23km", 39.03872, 84.53979));
+            sMarketList.add(new sMarket("Αθηνα", "25km", 7.75277, -104.71680));
+            sMarketList.add(new sMarket("Χαιδαρι", "33km", 67.08224, -127.61173));
+            sMarketList.add(new sMarket("Νικαια", "40km", -20.48317, 32.82617));
 
 
             sMAdapter = new sMarketAdapter(this, sMarketList);
@@ -53,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     sMarket selectedsMarket = sMarketList.get(i);
-                    float selectedLatt = selectedsMarket.getlatt();
-                    float selectedLong = selectedsMarket.getlongt();
+                    double selectedLatt = selectedsMarket.getlatt();
+                    double selectedLong = selectedsMarket.getlongt();
                     String locationInfo = selectedLatt + "," + selectedLong;
                     Uri gmmIntentUri = Uri.parse("google.navigation:q="+locationInfo+"&mode=d" );
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -91,7 +92,15 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     });
-
+                  final ArrayList<distance> distance=new ArrayList<>();
+                          n=sMarketList.size();
+                  for(int counter=0;counter<n;counter ++){
+                        Location marketLoc=new Location("");
+                      sMarket temp =sMarketList.get(counter);
+                        marketLoc.setLatitude(temp.getlatt());
+                      marketLoc.setLongitude(temp.getlongt());
+                      distance=location.distanceTo(marketLoc );
+                  }
 
         }
     }

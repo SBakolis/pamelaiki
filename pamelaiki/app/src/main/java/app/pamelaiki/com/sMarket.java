@@ -1,18 +1,21 @@
 package app.pamelaiki.com;
 
+import android.location.Location;
+
 public class sMarket {
 
     private String sMarketName;
     private String sMarketDistance;
-    private float latt;
-    private float longt;
+    private double latt;
+    private double longt;
 
-    public sMarket(String sMarketName, String sMarketDistance, float latt, float longt)
+    public sMarket(String sMarketName, String sMarketDistance, double latt, double longt)
     {
         this.sMarketName = sMarketName;
         this.sMarketDistance = sMarketDistance;
         this.latt = latt;
         this.longt = longt;
+
     }
 
     public String getsMarketName()
@@ -35,22 +38,22 @@ public class sMarket {
         this.sMarketDistance = sMarketDistance;
     }
 
-    public float getlatt()
+    public double getlatt()
     {
         return latt;
     }
 
-    public void setlatt(float latt)
+    public void setlatt(double latt)
     {
         this.latt = latt;
     }
 
-    public float getlongt()
+    public double getlongt()
     {
         return longt;
     }
 
-    public void setlongt(float longt)
+    public void setlongt(double longt)
     {
         this.longt = longt;
     }
