@@ -34,12 +34,12 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="9dp" />
-<<<<<<< HEAD
 
 
 
 
-=======
+
+
     <TextView
         android:id="@+id/locationtest"
         android:layout_below="@id/listView0"
@@ -53,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="9dp" />
 </RelativeLayout>
->>>>>>> master
+
     <!--
         <RelativeLayout
             android:layout_width="123dp"
