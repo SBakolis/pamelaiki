@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
-
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         public double deviceLong;
         public Location marketLoc;
         public int n;
+        public TextView TextDistance;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -100,8 +105,10 @@ public class MainActivity extends AppCompatActivity {
                         marketLoc.setLatitude(temp.getlatt());
                       marketLoc.setLongitude(temp.getlongt());
                       distance=location.distanceTo(marketLoc );
-                  }
 
+                  }
+            TextDistance=(TextView)findViewById(R.id.distance);
+                  TextDistance.setText(distance.get(0));
         }
     }
 
