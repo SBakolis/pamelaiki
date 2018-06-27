@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         public Location marketLoc;
         public int n;
         public TextView TextDistance;
+        public float[] results=new  float[3];
+        public float[] Bestdistance=new float[4];
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -94,21 +99,32 @@ public class MainActivity extends AppCompatActivity {
                                 deviceLatt = location.getLongitude();
                                 locationtest.setText("Recent Location " + deviceLong +","+ deviceLatt );
                             }
+
                         }
 
                     });
-                  final ArrayList<distance> distance=new ArrayList<>();
+                  final ArrayList<Double> distance=new ArrayList<>();
                           n=sMarketList.size();
+
                   for(int counter=0;counter<n;counter ++){
                         Location marketLoc=new Location("");
                       sMarket temp =sMarketList.get(counter);
                         marketLoc.setLatitude(temp.getlatt());
                       marketLoc.setLongitude(temp.getlongt());
-                      distance=location.distanceTo(marketLoc );
+                      Location.distanceBetween(deviceLatt,deviceLong,sMarketList.get(counter).getlatt(),sMarketList.get(counter).getlongt(),results);
+
+                           Bestdistance[counter]=results[0];
 
                   }
+                  for(int counter=0;counter<4;counter ++){
+                            if(Bestdistance[counter]<Bestdistance[0]){
+                                 float num;
+                                 num=Bestdistance[0];
+                                 Bestdistance[0]=Bestdistance[counter];
+                            }
+                  }
             TextDistance=(TextView)findViewById(R.id.distance);
-                  TextDistance.setText(distance.get(0));
+                  TextDistance.setText(String.valueOf(Bestdistance[0]));
         }
     }
 
