@@ -5,11 +5,11 @@ import android.location.Location;
 public class sMarket {
 
     private String sMarketName;
-    private String sMarketDistance;
+    private double sMarketDistance;
     private double latt;
     private double longt;
 
-    public sMarket(String sMarketName, String sMarketDistance, double latt, double longt)
+    public sMarket(String sMarketName, double sMarketDistance, double latt, double longt)
     {
         this.sMarketName = sMarketName;
         this.sMarketDistance = sMarketDistance;
@@ -28,12 +28,12 @@ public class sMarket {
         this.sMarketName = sMarketName;
     }
 
-    public String getsMarketDistance()
+    public double getsMarketDistance()
     {
         return sMarketDistance;
     }
 
-    public void setsMarketDistance(String sMarketDistance)
+    public void setsMarketDistance(Float sMarketDistance)
     {
         this.sMarketDistance = sMarketDistance;
     }
