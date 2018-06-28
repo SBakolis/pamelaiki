@@ -45,21 +45,21 @@ public class MainActivity extends AppCompatActivity {
         public int n;
         public TextView TextDistance;
         public float[] results=new  float[3];
-        public float[] Bestdistance=new float[4];
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
             listView = (ListView) findViewById(R.id.listView0);
-            final ArrayList<sMarket> sMarketList = new ArrayList<>();
+             ArrayList<sMarket> sMarketList = new ArrayList<>();
 
             sMarketList.add(new sMarket("Περιστερι", 00.0, 39.03872, 84.53979));
             sMarketList.add(new sMarket("Αθηνα", 00.0, 7.75277, -104.71680));
             sMarketList.add(new sMarket("Χαιδαρι", 00.0, 67.08224, -127.61173));
             sMarketList.add(new sMarket("Νικαια", 00.0, -20.48317, 32.82617));
             sMarketList.add(new sMarket("Νίκαια 2η",00.0,37.967856,23.635297));
-            final ArrayList<sMarket>  BestMarketList= new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+             final ArrayList<sMarket>  BestMarketList= new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
             sMAdapter = new sMarketAdapter(this, BestMarketList);
             listView.setAdapter(sMAdapter);
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     });
-                  final ArrayList<Double> distance=new ArrayList<>();
+
                           n=sMarketList.size();
                   //vriskei to distance kai to vazei sto antistoixo tou sMarket
                   for(int counter=0;counter<n;counter ++){
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                          BestMarketList.add(temp);
                    }
             TextDistance=(TextView)findViewById(R.id.distance);
-                  TextDistance.setText(String.valueOf(BestMarketList.get(0).getsMarketDistance()));
+                  TextDistance.setText(String.valueOf(sMarketList.get(4).getsMarketDistance()));
         }
     }
 
