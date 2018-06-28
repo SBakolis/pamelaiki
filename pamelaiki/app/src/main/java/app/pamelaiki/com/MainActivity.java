@@ -47,7 +47,11 @@ public class MainActivity extends AppCompatActivity {
         public int n;
         public TextView TextDistance;
         public float[] results=new  float[3];
+
         final ArrayList<sMarket> sMarketList = new ArrayList<>();
+
+        public float distance;
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -56,12 +60,16 @@ public class MainActivity extends AppCompatActivity {
             listView = (ListView) findViewById(R.id.listView0);
 
 
+
             sMarketList.add(new sMarket("Περιστερι", 00.0, 39.03872, 84.53979));
             sMarketList.add(new sMarket("Αθηνα", 00.0, 37.943454, 23.618762));
             sMarketList.add(new sMarket("Χαιδαρι", 00.0, 38.001470, 23.663558));
             sMarketList.add(new sMarket("Νικαια", 00.0, 37.986537, 23.629464));
             sMarketList.add(new sMarket("Νίκαια 2η",00.0,37.999976,23.641376));
             final ArrayList<sMarket>  BestMarketList= new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+
+           
+            
             sMAdapter = new sMarketAdapter(this, BestMarketList);
             listView.setAdapter(sMAdapter);
 
@@ -127,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
+
                                 deviceLong = location.getLongitude();
                                 deviceLatt = location.getLatitude();
                                 locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
@@ -167,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
             TextDistance=(TextView)findViewById(R.id.distance);
                   TextDistance.setText(String.valueOf(sMarketList.get(4).getsMarketDistance()));
+
 
 
         }
