@@ -111,9 +111,8 @@ public class MainActivity extends AppCompatActivity {
                   //vriskei to distance kai to vazei sto antistoixo tou sMarket
                   for(int counter=0;counter<n;counter ++){
                         Location marketLoc=new Location("");
-                      sMarket temp =sMarketList.get(counter);
-                        marketLoc.setLatitude(temp.getlatt());
-                      marketLoc.setLongitude(temp.getlongt());
+                     
+
                       Location.distanceBetween(deviceLatt,deviceLong,sMarketList.get(counter).getlatt(),sMarketList.get(counter).getlongt(),results);
 
                            sMarketList.get(counter).setsMarketDistance(results[0]);
