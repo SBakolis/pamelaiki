@@ -36,30 +36,40 @@ public class MainActivity extends AppCompatActivity {
         private sMarketAdapter sMAdapter;
         private Calendar sCalendar;
         public String dayLongName;
+        public String dayLongNameGreek;
         private TextView greetText;
         private TextView locationtest;
         private FusedLocationProviderClient mFusedLocationClient;
-        public double deviceLatt;
+        public double  deviceLatt;
         public double deviceLong;
         public Location marketLoc;
+        public Location lastPlace;
         public int n;
         public TextView TextDistance;
         public float[] results=new  float[3];
+
+        final ArrayList<sMarket> sMarketList = new ArrayList<>();
+
         public float distance;
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
             listView = (ListView) findViewById(R.id.listView0);
-            final ArrayList<sMarket> sMarketList = new ArrayList<>();
+
+
 
             sMarketList.add(new sMarket("Περιστερι", 00.0, 39.03872, 84.53979));
-            sMarketList.add(new sMarket("Αθηνα", 00.0, 7.75277, -104.71680));
-            sMarketList.add(new sMarket("Χαιδαρι", 00.0, 67.08224, -127.61173));
-            sMarketList.add(new sMarket("Νικαια", 00.0, 37.966878, 23.643241));
-            sMarketList.add(new sMarket("Νίκαια 2η",00.0,37.967856,23.635297));
-             final ArrayList<sMarket>  BestMarketList= new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+            sMarketList.add(new sMarket("Αθηνα", 00.0, 37.943454, 23.618762));
+            sMarketList.add(new sMarket("Χαιδαρι", 00.0, 38.001470, 23.663558));
+            sMarketList.add(new sMarket("Νικαια", 00.0, 37.986537, 23.629464));
+            sMarketList.add(new sMarket("Νίκαια 2η",00.0,37.999976,23.641376));
+            final ArrayList<sMarket>  BestMarketList= new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+
+           
+            
             sMAdapter = new sMarketAdapter(this, BestMarketList);
             listView.setAdapter(sMAdapter);
 
@@ -80,8 +90,35 @@ public class MainActivity extends AppCompatActivity {
             sCalendar = Calendar.getInstance();
             dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
 
+
+            switch(dayLongName)
+            {
+                case "Monday" : dayLongNameGreek = "Δευτέρα";
+                break;
+
+                case "Tuesday" : dayLongNameGreek = "Τρίτη";
+                break;
+
+                case "Wednesday" : dayLongNameGreek = "Τετάρτη";
+                break;
+
+                case "Thursday" : dayLongNameGreek = "Πέμπτη";
+                break;
+
+                case "Friday" : dayLongNameGreek = "Παρασκευή";
+                break;
+
+                case "Saturday" : dayLongNameGreek = "Σάββατο";
+                break;
+
+                case "Sunday" : dayLongNameGreek = "Κυριακή";
+                break;
+
+                default : break;
+            }
+
             greetText = (TextView) findViewById(R.id.greetText);
-            greetText.setText("Καλημέρα, σήμερα " + dayLongName + " οι κοντινότερες αγορές είναι:");
+            greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
 
             locationtest = findViewById(R.id.locationtest);
 
@@ -98,48 +135,50 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                deviceLatt=location.getLatitude();
-                                deviceLong=location.getLongitude();
-                                listView.setAdapter(sMAdapter);
+
+                                deviceLong = location.getLongitude();
+                                deviceLatt = location.getLatitude();
+                                locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
+
+                                n=sMarketList.size();
+                                //vriskei to distance kai to vazei sto antistoixo tou sMarket
+                                for(int counter=0;counter<n;counter ++){
+                                    Location marketLoc=new Location("");
 
 
-            locationtest.setText("Recent Location " + deviceLong +","+ deviceLatt );
-                      n=sMarketList.size();
-                  //vriskei to distance kai to vazei sto antistoixo tou sMarket
-                  for(int counter=0;counter<n;counter ++){
+                                    Location.distanceBetween(deviceLatt,deviceLong,sMarketList.get(counter).getlatt(),sMarketList.get(counter).getlongt(),results);
 
-                      Location CompareMarket=new Location("");
-                      CompareMarket.setLatitude(sMarketList.get(counter).getlatt());
-                      CompareMarket.setLongitude(sMarketList.get(counter).getlongt());
-                      distance=location.distanceTo(CompareMarket);
+                                    sMarketList.get(counter).setsMarketDistance(results[0]/1000);
 
-                           sMarketList.get(counter).setsMarketDistance(distance);
+                                }
+                                //sortarei ta sMarket
+                                for(int counter=0;counter<n;counter ++) {
+                                    for (int j = counter + 1; j < n; j++) {
+                                        if (sMarketList.get(counter).getsMarketDistance() > sMarketList.get(j).getsMarketDistance()) {
 
-                  }
-                      //sortarei ta sMarket
-                  for(int counter=0;counter<n;counter ++) {
-                      for (int j = counter + 1; j < n; j++) {
-                          if (sMarketList.get(counter).getsMarketDistance() > sMarketList.get(j).getsMarketDistance()) {
+                                            sMarket num = sMarketList.get(counter);
+                                            sMarketList.set(counter,sMarketList.get(j));
+                                            sMarketList.set(j,num);
+                                        }
+                                    }
+                                }
+                                //gemizei thn BestMarket me ta kontinotera
+                                for(int counter=0;counter<4;counter++){
 
-                              sMarket num = sMarketList.get(counter);
-                             sMarketList.set(counter,sMarketList.get(j));
-                              sMarketList.set(j,num);
-                          }
-                      }
-                  }
-                  //gemizei thn BestMarket me ta kontinotera
-                   for(int counter=0;counter<4;counter++){
-
-                        sMarket temp=sMarketList.get(counter);
-                         BestMarketList.add(temp);
-                   }
-            TextDistance=(TextView)findViewById(R.id.distance);
-            TextDistance.setText(String.valueOf(distance));
+                                    sMarket temp=sMarketList.get(counter);
+                                    BestMarketList.add(temp);
+                                }
                             }
-
                         }
-
                     });
+
+
+
+            TextDistance=(TextView)findViewById(R.id.distance);
+                  TextDistance.setText(String.valueOf(sMarketList.get(4).getsMarketDistance()));
+
+
+
         }
     }
 
