@@ -16,13 +16,13 @@ import java.util.List;
 public class sMarketAdapter extends ArrayAdapter<sMarket>
 {
     private Context sMarketcontext;
-    private List<sMarket> sMarketList = new ArrayList<>();
+    private List<sMarket> BestMarketList = new ArrayList<>();
 
     public sMarketAdapter(@NonNull Context context, ArrayList<sMarket> list)
     {
         super(context, 0, list);
         sMarketcontext = context;
-        sMarketList = list;
+        BestMarketList = list;
     }
 
     @NonNull
@@ -33,13 +33,13 @@ public class sMarketAdapter extends ArrayAdapter<sMarket>
         if(listItem == null)
             listItem = LayoutInflater.from(sMarketcontext).inflate(R.layout.smarket_list_item,parent,false);
 
-        sMarket currentsMarket = sMarketList.get(position);
+        sMarket currentsMarket =BestMarketList.get(position);
 
         TextView sMarketName = (TextView) listItem.findViewById(R.id.textView);
         sMarketName.setText(currentsMarket.getsMarketName());
 
         TextView sMarketDistance = (TextView) listItem.findViewById(R.id.textView2);
-        sMarketDistance.setText(currentsMarket.getsMarketDistance());
+        sMarketDistance.setText(String.valueOf(currentsMarket.getsMarketDistance()));
 
         return listItem;
     }
