@@ -36,12 +36,14 @@ public class MainActivity extends AppCompatActivity {
         private sMarketAdapter sMAdapter;
         private Calendar sCalendar;
         public String dayLongName;
+        public String dayLongNameGreek;
         private TextView greetText;
         private TextView locationtest;
         private FusedLocationProviderClient mFusedLocationClient;
         public double deviceLatt;
         public double deviceLong;
         public Location marketLoc;
+        public Location lastPlace;
         public int n;
         public TextView TextDistance;
         public float[] results=new  float[3];
@@ -80,8 +82,35 @@ public class MainActivity extends AppCompatActivity {
             sCalendar = Calendar.getInstance();
             dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
 
+
+            switch(dayLongName)
+            {
+                case "Monday" : dayLongNameGreek = "Δευτέρα";
+                break;
+
+                case "Tuesday" : dayLongNameGreek = "Τρίτη";
+                break;
+
+                case "Wednesday" : dayLongNameGreek = "Τετάρτη";
+                break;
+
+                case "Thursday" : dayLongNameGreek = "Πέμπτη";
+                break;
+
+                case "Friday" : dayLongNameGreek = "Παρασκευή";
+                break;
+
+                case "Saturday" : dayLongNameGreek = "Σάββατο";
+                break;
+
+                case "Sunday" : dayLongNameGreek = "Κυριακή";
+                break;
+
+                default : break;
+            }
+
             greetText = (TextView) findViewById(R.id.greetText);
-            greetText.setText("Καλημέρα, σήμερα " + dayLongName + " οι κοντινότερες αγορές είναι:");
+            greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
 
             locationtest = findViewById(R.id.locationtest);
 
@@ -98,20 +127,20 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                deviceLong = location.getLatitude();
-                                deviceLatt = location.getLongitude();
-                                locationtest.setText("Recent Location " + deviceLong +","+ deviceLatt );
+                                deviceLong = location.getLongitude();
+                                deviceLatt = location.getLatitude();
+                                locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
                             }
-
                         }
-
                     });
+
+
 
                           n=sMarketList.size();
                   //vriskei to distance kai to vazei sto antistoixo tou sMarket
                   for(int counter=0;counter<n;counter ++){
                         Location marketLoc=new Location("");
-                     
+
 
                       Location.distanceBetween(deviceLatt,deviceLong,sMarketList.get(counter).getlatt(),sMarketList.get(counter).getlongt(),results);
 
@@ -137,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
                    }
             TextDistance=(TextView)findViewById(R.id.distance);
                   TextDistance.setText(String.valueOf(sMarketList.get(4).getsMarketDistance()));
+
+
         }
     }
 
