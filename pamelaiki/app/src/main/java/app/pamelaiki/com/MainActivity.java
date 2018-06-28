@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
 
             listView = (ListView) findViewById(R.id.listView0);
-             ArrayList<sMarket> sMarketList = new ArrayList<>();
+            final ArrayList<sMarket> sMarketList = new ArrayList<>();
 
             sMarketList.add(new sMarket("Περιστερι", 00.0, 39.03872, 84.53979));
             sMarketList.add(new sMarket("Αθηνα", 00.0, 7.75277, -104.71680));
@@ -98,20 +98,16 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                deviceLong = location.getLatitude();
-                                deviceLatt = location.getLongitude();
-                                locationtest.setText("Recent Location " + deviceLong +","+ deviceLatt );
-                            }
+                                deviceLatt=location.getLatitude();
+                                deviceLong=location.getLongitude();
+                                listView.setAdapter(sMAdapter);
 
-                        }
-
-                    });
-
-                          n=sMarketList.size();
+            locationtest.setText("Recent Location " + deviceLong +","+ deviceLatt );
+                      n=sMarketList.size();
                   //vriskei to distance kai to vazei sto antistoixo tou sMarket
                   for(int counter=0;counter<n;counter ++){
-                        Location marketLoc=new Location("");
-                     
+
+
 
                       Location.distanceBetween(deviceLatt,deviceLong,sMarketList.get(counter).getlatt(),sMarketList.get(counter).getlongt(),results);
 
@@ -135,8 +131,13 @@ public class MainActivity extends AppCompatActivity {
                         sMarket temp=sMarketList.get(counter);
                          BestMarketList.add(temp);
                    }
-            TextDistance=(TextView)findViewById(R.id.distance);
-                  TextDistance.setText(String.valueOf(sMarketList.get(4).getsMarketDistance()));
+            //TextDistance=(TextView)findViewById(R.id.distance);
+            //TextDistance.setText(String.valueOf(marketLoc.getLatitude()));
+                            }
+
+                        }
+
+                    });
         }
     }
 
