@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         public int n;
         public TextView TextDistance;
         public float[] results=new  float[3];
-
+        public float distance;
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             sMarketList.add(new sMarket("Περιστερι", 00.0, 39.03872, 84.53979));
             sMarketList.add(new sMarket("Αθηνα", 00.0, 7.75277, -104.71680));
             sMarketList.add(new sMarket("Χαιδαρι", 00.0, 67.08224, -127.61173));
-            sMarketList.add(new sMarket("Νικαια", 00.0, -20.48317, 32.82617));
+            sMarketList.add(new sMarket("Νικαια", 00.0, 37.966878, 23.643241));
             sMarketList.add(new sMarket("Νίκαια 2η",00.0,37.967856,23.635297));
              final ArrayList<sMarket>  BestMarketList= new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
             sMAdapter = new sMarketAdapter(this, BestMarketList);
@@ -102,16 +102,18 @@ public class MainActivity extends AppCompatActivity {
                                 deviceLong=location.getLongitude();
                                 listView.setAdapter(sMAdapter);
 
+
             locationtest.setText("Recent Location " + deviceLong +","+ deviceLatt );
                       n=sMarketList.size();
                   //vriskei to distance kai to vazei sto antistoixo tou sMarket
                   for(int counter=0;counter<n;counter ++){
 
+                      Location CompareMarket=new Location("");
+                      CompareMarket.setLatitude(sMarketList.get(counter).getlatt());
+                      CompareMarket.setLongitude(sMarketList.get(counter).getlongt());
+                      distance=location.distanceTo(CompareMarket);
 
-
-                      Location.distanceBetween(deviceLatt,deviceLong,sMarketList.get(counter).getlatt(),sMarketList.get(counter).getlongt(),results);
-
-                           sMarketList.get(counter).setsMarketDistance(results[0]);
+                           sMarketList.get(counter).setsMarketDistance(distance);
 
                   }
                       //sortarei ta sMarket
@@ -131,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
                         sMarket temp=sMarketList.get(counter);
                          BestMarketList.add(temp);
                    }
-            //TextDistance=(TextView)findViewById(R.id.distance);
-            //TextDistance.setText(String.valueOf(marketLoc.getLatitude()));
+            TextDistance=(TextView)findViewById(R.id.distance);
+            TextDistance.setText(String.valueOf(distance));
                             }
 
                         }
