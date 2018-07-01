@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
         final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
         final ArrayList<sMarket> MondayList=new ArrayList<>();
+       // sta sxolia opou exw * shmainei oti arxise na isxuei apo kapoia hmeromhnia kai meta,ara tha prepei na prosexoume mhpws xreiastei na kanoume update an allaksei pali topothesia,epishs opou exw hmeromhnia shmainei oti mexri tote tha einai sthn topothesia auth kai meta tha allaksei
         MondayList.add(new sMarket("Γλυφάδα(Πυρνάρι)", 00.0, 37.873114, 23.762878));
         MondayList.add(new sMarket("Ίλιον(Ζωοδόχου Πηγής)", 00.0, 38.021728, 23.698081));
         MondayList.add(new sMarket("Ζωγράφου(Γουδί)", 00.0, 37.982131, 23.768774));
         MondayList.add(new sMarket("Κηφισιά", 00.0, 38.072513, 23.796675));
-        MondayList.add(new sMarket("Αγία Παρασκευή(Τσακός)", 00.0, 38.010965, 23.832078));// ελεγε απο 4/7/17-31/12/17,αρα το αφηνω μεχρι να βεβαιωθω οτι δεν ανανεώθηκε για φετος
         MondayList.add(new sMarket("Αγ.Βαρβάρα", 00.0, 37.991370, 23.654593));
         MondayList.add(new sMarket("Καματερό", 00.0, 38.049685, 23.698548));//υπο κατασκευη
         MondayList.add(new sMarket("Αγ.Δημήτριος(Λιδορίκι)", 00.0, 37.930078, 23.732230));//*
