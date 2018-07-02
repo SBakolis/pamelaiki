@@ -39,7 +39,7 @@ public class sMarketAdapter extends ArrayAdapter<sMarket>
         sMarketName.setText(currentsMarket.getsMarketName());
 
         TextView sMarketDistance = (TextView) listItem.findViewById(R.id.textView2);
-        sMarketDistance.setText(String.valueOf(currentsMarket.getsMarketDistance()));
+        sMarketDistance.setText(String.format("%.2f",currentsMarket.getsMarketDistance()) + " χλμ");
 
         return listItem;
     }

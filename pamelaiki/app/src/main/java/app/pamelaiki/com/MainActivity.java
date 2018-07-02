@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -373,8 +374,11 @@ public class MainActivity extends AppCompatActivity {
                                 BestMarketList.add(temp);
                             }
                             TextDistance = (TextView) findViewById(R.id.distance);
-                            TextDistance.setText(String.valueOf(sMarketList.get(0).getsMarketDistance()));
+                            TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
 
+                        }else{
+                            Intent gpsOptionsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(gpsOptionsIntent);
                         }
                     }
                 })
