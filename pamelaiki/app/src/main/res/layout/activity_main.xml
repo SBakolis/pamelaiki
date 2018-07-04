@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="app.pamelaiki.com.MainActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/m1"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="20dp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,8 +26,11 @@
         <ListView
             android:id="@+id/listView0"
             android:layout_width="match_parent"
-            android:layout_height="351dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/greetText"
             android:layout_centerInParent="true"
+            android:divider="@android:color/white"
+            android:dividerHeight="2px"
             android:paddingTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -29,11 +41,12 @@
             android:id="@+id/greetText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="13dp"
             android:text="TextView"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

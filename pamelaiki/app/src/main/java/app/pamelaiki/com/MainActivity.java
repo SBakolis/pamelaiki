@@ -175,17 +175,17 @@ public class MainActivity extends AppCompatActivity {
         WednesdayList.add(new sMarket("Αργυρούπολη(Αλεξιούπολη)",0,37.908378, 23.755837));//*  31/10
         //Thursday
         ThursdayList.add(new sMarket("Άνω Αγία Βαρβάρα", 00.0, 37.986196, 23.649571));
-        ThursdayList.add(new sMarket("Άγιος Ελευθέριος", 00.0, 38.017871, 23.726214));
-        ThursdayList.add(new sMarket("Αχαρνών", 00.0, 38.008428, 23.726712));
-        ThursdayList.add(new sMarket("Ελληνορώσσων", 00.0, 37.994854, 23.772483));
-        ThursdayList.add(new sMarket("Κυψέλη", 00.0, 37.997976, 23.737023));
-        ThursdayList.add(new sMarket("Προμπονά", 00.0, 38.026038, 23.735157));
-        ThursdayList.add(new sMarket("Σεπόλια", 00.0, 38.000818, 23.717312));
+        ThursdayList.add(new sMarket("Αθήνα(Άγιος Ελευθέριος)", 00.0, 38.017871, 23.726214));
+        ThursdayList.add(new sMarket("Αθήνα(Αχαρνών)", 00.0, 38.008428, 23.726712)); // 15/9
+        ThursdayList.add(new sMarket("Αθήνα(Ελληνορώσσων)", 00.0, 37.994854, 23.772483));
+        ThursdayList.add(new sMarket("Αθήνα(Κυψέλη)", 00.0, 37.997976, 23.737023)); // 4/7
+        ThursdayList.add(new sMarket("Αθήνα(Προμπονά)", 00.0, 38.026038, 23.735157));
+        ThursdayList.add(new sMarket("Αθήνα(Σεπόλια)", 00.0, 38.000818, 23.717312)); //25/7
         ThursdayList.add(new sMarket("Βούλας", 00.0, 37.851104, 23.760300));
-        ThursdayList.add(new sMarket("Νεραϊδα", 00.0, 37.960531, 23.748191));
+        ThursdayList.add(new sMarket("Νεραϊδα", 00.0, 37.960531, 23.748191)); // 9/7
         ThursdayList.add(new sMarket("Γαλάτσι", 00.0, 38.016511, 23.756531));
         ThursdayList.add(new sMarket("Γλυφάδα", 00.0, 37.867178, 23.749200));
-        ThursdayList.add(new sMarket("Ελληνικό", 00.0, 37.890954, 23.755731));
+        ThursdayList.add(new sMarket("Ελληνικό", 00.0, 37.890954, 23.755731)); //31/8
         ThursdayList.add(new sMarket("Άνω Ιλίσια", 00.0, 37.974105, 23.769688));
         ThursdayList.add(new sMarket("Άγιος Κωνσταντίνος", 00.0, 37.942010, 23.743228));
         ThursdayList.add(new sMarket("Άγιος Νικόλαος", 00.0, 38.046904, 23.693807));
@@ -196,62 +196,62 @@ public class MainActivity extends AppCompatActivity {
         ThursdayList.add(new sMarket("Νεάπολη (Περισσός)", 00.0, 38.032812, 23.757396));
         ThursdayList.add(new sMarket("Αγία Σοφία", 00.0, 37.956864, 23.639664));
         ThursdayList.add(new sMarket("Δεληγιάννη", 00.0, 37.943414, 23.650869));
-        ThursdayList.add(new sMarket("Ανθούπολη", 00.0, 38.021692, 23.689229));
-        ThursdayList.add(new sMarket("Υμηττός", 00.0, 37.952852, 23.749444));
+        ThursdayList.add(new sMarket("Ανθούπολη", 00.0, 38.021692, 23.689229)); //30/9
+        ThursdayList.add(new sMarket("Υμηττός", 00.0, 37.952852, 23.749444)); //4/7
         ThursdayList.add(new sMarket("Δάσος", 00.0, 38.013365, 23.650722));
         //Friday
         FridayList.add(new sMarket("Αγία Παρασκευή", 00.0, 38.009760, 23.820662));
-        FridayList.add(new sMarket("Ανθέων", 00.0, 37.933661, 23.741072));
-        FridayList.add(new sMarket("Ασύρματος", 00.0, 37.926264, 23.717694));
-        FridayList.add(new sMarket("Άγιος Σώστης", 00.0, 37.953272, 23.718645));
-        FridayList.add(new sMarket("Άνω Κυψέλη", 00.0, 38.004211, 23.745506));
-        FridayList.add(new sMarket("Βεϊκού", 00.0, 37.963435, 23.718848));
-        FridayList.add(new sMarket("Ιλίσια (Χίλτον)", 00.0, 37.973909, 23.752768));
-        FridayList.add(new sMarket("Κολωνάκι", 00.0, 37.979279, 23.745334));
-        FridayList.add(new sMarket("Παγκράτι", 00.0, 37.965703, 23.748055));
-        FridayList.add(new sMarket("Πετράλωνα", 00.0, 37.968815, 23.713482));
-        FridayList.add(new sMarket("Αιγάλεω Α", 00.0, 37.995149, 23.685060));
-        FridayList.add(new sMarket("Αιγάλεω Β", 00.0, 37.986679, 23.679289));
-        FridayList.add(new sMarket("Λιούμη", 00.0, 37.994319, 23.670464));
+        FridayList.add(new sMarket("Άγιος Δημήτριος(Ανθέων)", 00.0, 37.933661, 23.741072));
+        FridayList.add(new sMarket("Άγιος Δημήτριος(Ασύρματος)", 00.0, 37.926264, 23.717694));
+        FridayList.add(new sMarket("Αθήνα(Άγιος Σώστης)", 00.0, 37.953272, 23.718645)); // mon
+        FridayList.add(new sMarket("Αθήνα(Άνω Κυψέλη)", 00.0, 38.004211, 23.745506)); // 31/8
+        FridayList.add(new sMarket("Αθήνα(Βεϊκού)", 00.0, 37.963435, 23.718848));
+        FridayList.add(new sMarket("Αθήνα(Ιλίσια (Χίλτον))", 00.0, 37.973909, 23.752768));
+        FridayList.add(new sMarket("Αθήνα(Κολωνάκι)", 00.0, 37.979279, 23.745334));
+        FridayList.add(new sMarket("Αθήνα(Παγκράτι)", 00.0, 37.965703, 23.748055));
+        FridayList.add(new sMarket("Αθήνα(Πετράλωνα)", 00.0, 37.968815, 23.713482));
+        FridayList.add(new sMarket("Αιγάλεω(Αιγάλεω Α)", 00.0, 37.995149, 23.685060)); //30/11
+        FridayList.add(new sMarket("Αιγάλεω(Αιγάλεω Β)", 00.0, 37.986679, 23.679289));
+        FridayList.add(new sMarket("Αιγάλεω(Λιούμη)", 00.0, 37.994319, 23.670464)); // 30/11
         FridayList.add(new sMarket("Βριλλήσια", 00.0, 38.033054, 23.831937));
-        FridayList.add(new sMarket("Νέα Ελβετία", 00.0, 37.955535, 23.761151));
-        FridayList.add(new sMarket("Αγία Παρασκευή", 00.0, 37.908305, 23.742212));
+        FridayList.add(new sMarket("Νέα Ελβετία", 00.0, 37.955535, 23.761151)); // 9/7
+        FridayList.add(new sMarket("Αγία Παρασκευή", 00.0, 37.908305, 23.742212)); // 30/9
         FridayList.add(new sMarket("Νέο Ηράκλειο", 00.0, 38.048724, 23.762752));
-        FridayList.add(new sMarket("Καλλιθέα", 00.0, 37.958084, 23.711647));
-        FridayList.add(new sMarket("Σφαγεία Καλλιθέας", 00.0, 37.960677, 23.703664));
+        FridayList.add(new sMarket("Καλλιθέα(Καλλιθέα)", 00.0, 37.958084, 23.711647)); // 30/9
+        FridayList.add(new sMarket("Καλλιθέα(Σφαγεία Καλλιθέας)", 00.0, 37.960677, 23.703664));// 30/9
         FridayList.add(new sMarket("Ειρήνη", 00.0, 38.037803, 23.746338));
-        FridayList.add(new sMarket("Αγίας Βαρβάρας", 00.0, 37.920720, 23.708837));
-        FridayList.add(new sMarket("Αμφιθέα", 00.0, 37.938793, 23.703539));
-        FridayList.add(new sMarket("Παλαιό Φάληρο", 00.0, 37.928415, 23.697849));
-        FridayList.add(new sMarket("Καμίνια", 00.0, 37.953784, 23.660188));
-        FridayList.add(new sMarket("Ταμπούρια", 00.0, 37.960782, 23.629861));
+        FridayList.add(new sMarket("Παλαιό Φάληρο(Αγίας Βαρβάρας)", 00.0, 37.920720, 23.708837));
+        FridayList.add(new sMarket("Παλαιό Φάληρο(Αμφιθέα)", 00.0, 37.938793, 23.703539));
+        FridayList.add(new sMarket("Παλαιό Φάληρο(Παλαιό Φάληρο)", 00.0, 37.928415, 23.697849));
+        FridayList.add(new sMarket("Πειραιάς(Καμίνια)", 00.0, 37.953784, 23.660188));
+        FridayList.add(new sMarket("Πειραιάς(Ταμπούρια)", 00.0, 37.960782, 23.629861));
         FridayList.add(new sMarket("Περιστέρι", 00.0, 38.014214, 23.684524));
-        FridayList.add(new sMarket("Αγία Τριάδα", 00.0, 38.041077, 23.669220));
-        FridayList.add(new sMarket("Άνω Πετρούπολη", 00.0, 38.044389, 23.679667));
+        FridayList.add(new sMarket("Πετρούπολη(Αγία Τριάδα)", 00.0, 38.041077, 23.669220)); // mon
+        FridayList.add(new sMarket("Πετρούπολη(Άνω Πετρούπολη)", 00.0, 38.044389, 23.679667)); // 30/8
         //Saturday
         SaturdayList.add(new sMarket("Άγιοι Ανάργυροι", 00.0, 38.047698, 23.732443));
-        SaturdayList.add(new sMarket("Άγιος Γεώργιος", 00.0, 37.952425, 23.722328));
-        SaturdayList.add(new sMarket("Αμπελοκήποι", 00.0, 37.991532, 23.762097));
-        SaturdayList.add(new sMarket("Εξάρχεια", 00.0, 37.987296, 23.737615));
-        SaturdayList.add(new sMarket("Πλατεία Αττικής", 00.0, 37.998895, 23.724868));
+        SaturdayList.add(new sMarket("Αθήνα(Άγιος Γεώργιος)", 00.0, 37.952425, 23.722328));
+        SaturdayList.add(new sMarket("Αθήνα(Αμπελοκήποι)", 00.0, 37.991532, 23.762097));
+        SaturdayList.add(new sMarket("Αθήνα(Εξάρχεια)", 00.0, 37.987296, 23.737615));
+        SaturdayList.add(new sMarket("Αθήνα(Πλατεία Αττικής)", 00.0, 37.998895, 23.724868)); // 15/9
         SaturdayList.add(new sMarket("Αμαρούσι", 00.0, 38.053557, 23.797641));
         SaturdayList.add(new sMarket("Πολυδρόσο", 00.0, 38.034002, 23.810491));
-        SaturdayList.add(new sMarket("Νέα Ευρυάλη", 00.0, 37.881742, 23.748783));
+        SaturdayList.add(new sMarket("Νέα Ευρυάλη", 00.0, 37.881742, 23.748783)); //20/7
         SaturdayList.add(new sMarket("Ζωοδόχου Πηγής", 00.0, 37.951112, 23.730229));
-        SaturdayList.add(new sMarket("Αργυρούπολη", 00.0, 37.902726, 23.748494));
-        SaturdayList.add(new sMarket("Αργυρούπολη Π.Π.", 00.0, 37.918409, 23.749308));
+        SaturdayList.add(new sMarket("Αργυρούπολη(Αργυρούπολη)", 00.0, 37.902726, 23.748494));
+        SaturdayList.add(new sMarket("Αργυρούπολη(Αργυρούπολη Π.Π.)", 00.0, 37.918409, 23.749308));
         SaturdayList.add(new sMarket("Ηλιούπολη", 00.0, 37.943420, 23.755290));
         SaturdayList.add(new sMarket("Μιχελή", 00.0, 38.037497, 23.696708));
         SaturdayList.add(new sMarket("Νέα Ευγενεία", 00.0, 37.955698, 23.619153));
         SaturdayList.add(new sMarket("Κορυδαλλός", 00.0, 37.978836, 23.650401));
         SaturdayList.add(new sMarket("Μεταμόρφωση", 00.0, 38.062461, 23.764212));
-        SaturdayList.add(new sMarket("Περισσός", 00.0, 38.034394, 23.748218));
-        SaturdayList.add(new sMarket("Κουτσικάρι", 00.0, 37.974331, 23.659206));
+        SaturdayList.add(new sMarket("Περισσός", 00.0, 38.034394, 23.748218)); // 13/7
+        SaturdayList.add(new sMarket("Κουτσικάρι", 00.0, 37.974331, 23.659206)); // 31/7
         SaturdayList.add(new sMarket("Καλλίπολη", 00.0, 37.931713, 23.631889));
         SaturdayList.add(new sMarket("Μπουρνάζι", 00.0, 38.013657, 23.708943));
-        SaturdayList.add(new sMarket("Αγία Γρηγορούσα", 00.0, 38.015774, 23.671780));
-        SaturdayList.add(new sMarket("Κουνέλια", 00.0, 38.030577, 23.794105));
-        SaturdayList.add(new sMarket("Χαιδάρι", 00.0, 38.002877, 23.661962));
+        SaturdayList.add(new sMarket("Χαϊδάρι(Αγία Γρηγορούσα)", 00.0, 38.015774, 23.671780));
+        SaturdayList.add(new sMarket("Χαϊδάρι(Κουνέλια)", 00.0, 38.030577, 23.794105));
+        SaturdayList.add(new sMarket("Χαϊδάρι(Χαιδάρι)", 00.0, 38.002877, 23.661962)); // 31/8
         SaturdayList.add(new sMarket("Κάτω Χαλάνδρι", 00.0, 38.011289, 23.802235));
         SaturdayList.add(new sMarket("Νέα Χαλκηδόνα", 00.0, 38.026400, 23.729543));
         //thn kyriakh kleistes

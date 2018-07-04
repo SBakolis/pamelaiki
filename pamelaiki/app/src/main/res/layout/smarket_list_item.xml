@@ -15,6 +15,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -22,8 +23,9 @@
         android:id="@+id/textView2"
         android:layout_width="354dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView"
         android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView"
         android:layout_below="@+id/textView"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="@android:color/white" />
 </RelativeLayout>
