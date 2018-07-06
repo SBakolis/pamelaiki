@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     public int n;
     public TextView TextDistance;
     public float[] results = new float[3];
-    public AlertDialog.Builder builder;
+    private AlertDialog.Builder builder;
+    public AlertDialog dialog;
 
     public float distance;
 
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(0);
             }
         });
+        dialog = builder.create();
+
 
         final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
 
@@ -396,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
 
                         }else{
 
-                            AlertDialog dialog = builder.create();
+                            dialog.show();
                         }
                     }
                 })
