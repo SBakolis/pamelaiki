@@ -2,6 +2,8 @@ package app.pamelaiki.com;
 
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public int n;
     public TextView TextDistance;
     public float[] results = new float[3];
-
+    public AlertDialog.Builder builder;
 
     public float distance;
 
@@ -63,10 +65,33 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView0);
         final ArrayList<sMarket> sMarketList = new ArrayList<>();
 
+        builder = new AlertDialog.Builder(MainActivity.this);
 
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent gpsOptionsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(gpsOptionsIntent);
+            }
+        });
+
+        builder.setMessage("Για τη σωστή λειτουργεία της εφαρμογής θα πρέπει να ενεργοποιήσετε το GPS, πατήστε ΟΚ για ενεργοποίηση.")
+                .setTitle("Ενεργοποιήστε το GPS.");
+
+        builder.setNegativeButton("Έξοδος", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                System.exit(0);
+            }
+        });
 
         final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+
         final ArrayList<sMarket> MondayList=new ArrayList<>();
+        final ArrayList<sMarket> TuesdayList=new ArrayList<>();
+        final ArrayList<sMarket> WednesdayList=new ArrayList<>();
+        final ArrayList<sMarket> ThursdayList=new ArrayList<>();
+        final ArrayList<sMarket> FridayList=new ArrayList<>();
+        final ArrayList<sMarket> SaturdayList=new ArrayList<>();
+        final ArrayList<sMarket> SundayList=new ArrayList<>();
        // sta sxolia opou exw * shmainei oti arxise na isxuei apo kapoia hmeromhnia kai meta,ara tha prepei na prosexoume mhpws xreiastei na kanoume update an allaksei pali topothesia,epishs opou exw hmeromhnia shmainei oti mexri tote tha einai sthn topothesia auth kai meta tha allaksei
         MondayList.add(new sMarket("Γλυφάδα(Πυρνάρι)", 00.0, 37.873114, 23.762878));
         MondayList.add(new sMarket("Ίλιον(Ζωοδόχου Πηγής)", 00.0, 38.021728, 23.698081));
@@ -105,14 +130,7 @@ public class MainActivity extends AppCompatActivity {
         MondayList.add(new sMarket("Θεσσαλονίκη(Κυβέλια)", 00.0, 40.614213, 22.956000));
         MondayList.add(new sMarket("Νίκαια(Οσία Ξένη)", 00.0, 37.967145, 23.64410));//* 31/12
 
-        final ArrayList<sMarket> TuesdayList=new ArrayList<>();
-        final ArrayList<sMarket> WednesdayList=new ArrayList<>();
-        final ArrayList<sMarket> ThursdayList=new ArrayList<>();
-        final ArrayList<sMarket> FridayList=new ArrayList<>();
-        final ArrayList<sMarket> SaturdayList=new ArrayList<>();
-        final ArrayList<sMarket> SundayList=new ArrayList<>();
-
-       TuesdayList.add(new sMarket("Αγ.Παρασκευή(Κοντόπευκο)",0,38.019121, 23.829085));//*
+        TuesdayList.add(new sMarket("Αγ.Παρασκευή(Κοντόπευκο)",0,38.019121, 23.829085));//*
         TuesdayList.add(new sMarket("Άγ.Ανάργυροι(Ανάκασα)",0,38.041178, 23.732618));
         TuesdayList.add(new sMarket("Καματερό",0,38.059309, 23.710294));//* υπο κατασκευη
         TuesdayList.add(new sMarket("Αμπελοκηποι",0,37.988084, 23.749523));
@@ -377,8 +395,8 @@ public class MainActivity extends AppCompatActivity {
                             TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
 
                         }else{
-                            Intent gpsOptionsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivity(gpsOptionsIntent);
+
+                            AlertDialog dialog = builder.create();
                         }
                     }
                 })
