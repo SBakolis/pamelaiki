@@ -16,6 +16,7 @@
         tools:layout_editor_absoluteY="0dp" />
 
     <RelativeLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"
@@ -23,11 +24,12 @@
         android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/nomarket"
-            android:text="@string/nomarket"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="137dp"
+            android:text="@string/nomarket" />
+
+        />
 
         <!--<ImageButton
             android:id="@+id/info"

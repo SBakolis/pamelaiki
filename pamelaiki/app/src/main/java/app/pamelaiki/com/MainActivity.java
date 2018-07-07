@@ -53,15 +53,15 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     public double deviceLatt;
     public double deviceLong;
-    public Location marketLoc;
-    public Location lastPlace;
+
+
     public int n;
-    public TextView TextDistance;
+
     public float[] results = new float[3];
     private AlertDialog.Builder builder;
     public AlertDialog dialog;
 
-    public float distance;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -381,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
-                            locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
+
 
 
                             n = sMarketList.size();
@@ -411,8 +411,8 @@ public class MainActivity extends AppCompatActivity {
                                 sMarket temp = sMarketList.get(counter);
                                 BestMarketList.add(temp);
                             }
-                            TextDistance = (TextView) findViewById(R.id.distance);
-                            TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            //TextDistance = (TextView) findViewById(R.id.distance);
+                            //TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
 
                         }else{
 
