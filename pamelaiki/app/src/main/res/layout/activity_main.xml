@@ -12,8 +12,8 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         app:srcCompat="@drawable/m1"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="20dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,6 +22,14 @@
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/info"
+            android:layout_width="41dp"
+            android:layout_height="36dp"
+            android:layout_alignEnd="@+id/listView0"
+            android:layout_alignTop="@+id/greetText"
+            app:srcCompat="@android:drawable/ic_menu_info_details" />
 
         <ListView
             android:id="@+id/listView0"
@@ -43,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+
             android:layout_marginTop="13dp"
             android:text="TextView"
             android:textColor="@android:color/white"

@@ -20,7 +20,7 @@
         <activity android:name=".PopInfo"
             android:theme="@style/AppTheme.Info">
         </activity>
-    </application></application>
+    </application>
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 </manifest>
