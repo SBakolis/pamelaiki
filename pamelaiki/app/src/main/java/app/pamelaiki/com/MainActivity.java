@@ -42,7 +42,7 @@ import static com.google.android.gms.location.LocationServices.*;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private  View main;
     private ListView listView;
     private sMarketAdapter sMAdapter;
     private Calendar sCalendar;
@@ -312,22 +312,25 @@ public class MainActivity extends AppCompatActivity {
         });
         sCalendar = Calendar.getInstance();
         dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
-         Main=(View) findViewById(R.id.)
-
+         Nomarket=(TextView) findViewById(R.id.nomarket);
+           main=(View) findViewById(R.id.main);
         switch (dayLongName) {
             case "Monday":
                 dayLongNameGreek = "Δευτέρα";
                 sMarketList.addAll(MondayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Tuesday":
                 dayLongNameGreek = "Τρίτη";
                 sMarketList.addAll(TuesdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Wednesday":
                 dayLongNameGreek = "Τετάρτη";
                 sMarketList.addAll(WednesdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Thursday":
@@ -338,17 +341,19 @@ public class MainActivity extends AppCompatActivity {
             case "Friday":
                 dayLongNameGreek = "Παρασκευή";
                 sMarketList.addAll(FridayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Saturday":
                 dayLongNameGreek = "Σάββατο";
                 sMarketList.addAll(SaturdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Sunday":
                 dayLongNameGreek = "Κυριακή";
-                listView.setVisibility(View.GONE);
-
+                main.setVisibility(View.GONE);
+                Nomarket.setVisibility(View.VISIBLE);
                 sMarketList.addAll(SundayList);
                 break;
 
@@ -359,7 +364,6 @@ public class MainActivity extends AppCompatActivity {
         greetText = (TextView) findViewById(R.id.greetText);
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
 
-        locationtest = findViewById(R.id.locationtest);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
