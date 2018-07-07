@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,7 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView0);
         final ArrayList<sMarket> sMarketList = new ArrayList<>();
-
+        ImageView info=(ImageView) findViewById(R.id.info);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,PopInfo.class));
+            }
+        });
         builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
