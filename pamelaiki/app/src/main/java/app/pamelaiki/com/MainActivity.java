@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,25 +42,27 @@ import static com.google.android.gms.location.LocationServices.*;
 
 public class MainActivity extends AppCompatActivity {
 
+    private  View main;
     private ListView listView;
     private sMarketAdapter sMAdapter;
     private Calendar sCalendar;
     public String dayLongName;
     public String dayLongNameGreek;
     private TextView greetText;
-    private TextView locationtest;
+    private TextView Nomarket;
     private FusedLocationProviderClient mFusedLocationClient;
     public double deviceLatt;
     public double deviceLong;
-    public Location marketLoc;
-    public Location lastPlace;
-    public int n;
     public TextView TextDistance;
+    public TextView locationtest;
+
+    public int n;
+
     public float[] results = new float[3];
     private AlertDialog.Builder builder;
     public AlertDialog dialog;
 
-    public float distance;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView0);
         final ArrayList<sMarket> sMarketList = new ArrayList<>();
-
+        /*&ImageButton info=(ImageButton) findViewById(R.id.info);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,PopInfo.class));
+            }
+        });*/
         builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -301,22 +313,25 @@ public class MainActivity extends AppCompatActivity {
         });
         sCalendar = Calendar.getInstance();
         dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
-
-
+         Nomarket=(TextView) findViewById(R.id.nomarket);
+           main=(View) findViewById(R.id.main);
         switch (dayLongName) {
             case "Monday":
                 dayLongNameGreek = "Δευτέρα";
                 sMarketList.addAll(MondayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Tuesday":
                 dayLongNameGreek = "Τρίτη";
                 sMarketList.addAll(TuesdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Wednesday":
                 dayLongNameGreek = "Τετάρτη";
                 sMarketList.addAll(WednesdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Thursday":
@@ -327,15 +342,19 @@ public class MainActivity extends AppCompatActivity {
             case "Friday":
                 dayLongNameGreek = "Παρασκευή";
                 sMarketList.addAll(FridayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Saturday":
                 dayLongNameGreek = "Σάββατο";
                 sMarketList.addAll(SaturdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Sunday":
                 dayLongNameGreek = "Κυριακή";
+                main.setVisibility(View.GONE);
+                Nomarket.setVisibility(View.VISIBLE);
                 sMarketList.addAll(SundayList);
                 break;
 
@@ -345,7 +364,6 @@ public class MainActivity extends AppCompatActivity {
 
         greetText = (TextView) findViewById(R.id.greetText);
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
-
         locationtest = findViewById(R.id.locationtest);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -364,9 +382,8 @@ public class MainActivity extends AppCompatActivity {
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
+
                             locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
-
-
                             n = sMarketList.size();
                             //vriskei to distance kai to vazei sto antistoixo tou sMarket
                             for (int counter = 0; counter < n; counter++) {

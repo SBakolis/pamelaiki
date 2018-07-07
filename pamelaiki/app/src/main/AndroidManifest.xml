@@ -17,6 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PopInfo"
+            android:theme="@style/AppTheme.Info">
+        </activity>
     </application>
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 </manifest>
