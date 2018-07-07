@@ -69,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView0);
         final ArrayList<sMarket> sMarketList = new ArrayList<>();
-        ImageButton info=(ImageButton) findViewById(R.id.info);
+        /*&ImageButton info=(ImageButton) findViewById(R.id.info);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,PopInfo.class));
             }
-        });
+        });*/
         builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
