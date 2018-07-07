@@ -364,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
 
         greetText = (TextView) findViewById(R.id.greetText);
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
-
+        locationtest = findViewById(R.id.locationtest);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
