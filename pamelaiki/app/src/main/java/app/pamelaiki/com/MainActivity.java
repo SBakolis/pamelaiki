@@ -42,13 +42,14 @@ import static com.google.android.gms.location.LocationServices.*;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private ListView listView;
     private sMarketAdapter sMAdapter;
     private Calendar sCalendar;
     public String dayLongName;
     public String dayLongNameGreek;
     private TextView greetText;
-    private TextView locationtest;
+    private TextView Nomarket;
     private FusedLocationProviderClient mFusedLocationClient;
     public double deviceLatt;
     public double deviceLong;
@@ -311,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
         });
         sCalendar = Calendar.getInstance();
         dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
-
+         Main=(View) findViewById(R.id.)
 
         switch (dayLongName) {
             case "Monday":
@@ -346,6 +347,8 @@ public class MainActivity extends AppCompatActivity {
 
             case "Sunday":
                 dayLongNameGreek = "Κυριακή";
+                listView.setVisibility(View.GONE);
+
                 sMarketList.addAll(SundayList);
                 break;
 
