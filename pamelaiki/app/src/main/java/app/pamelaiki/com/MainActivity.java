@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     public double deviceLatt;
     public double deviceLong;
-    private TextView TextDistance;
-
+    public TextView TextDistance;
+    public TextView locationtest;
 
     public int n;
 
@@ -383,8 +383,7 @@ public class MainActivity extends AppCompatActivity {
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
 
-
-
+                            locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
                             n = sMarketList.size();
                             //vriskei to distance kai to vazei sto antistoixo tou sMarket
                             for (int counter = 0; counter < n; counter++) {
