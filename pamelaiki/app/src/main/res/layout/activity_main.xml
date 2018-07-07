@@ -70,7 +70,16 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="9dp" />
 
-
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/listView0"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:visibility="invisible"
+            tools:layout_editor_absoluteX="35dp"
+            tools:layout_editor_absoluteY="495dp" />
 
 
 

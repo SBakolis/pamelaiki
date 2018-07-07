@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     public double deviceLatt;
     public double deviceLong;
+    private TextView TextDistance;
 
 
     public int n;
@@ -411,8 +412,8 @@ public class MainActivity extends AppCompatActivity {
                                 sMarket temp = sMarketList.get(counter);
                                 BestMarketList.add(temp);
                             }
-                            //TextDistance = (TextView) findViewById(R.id.distance);
-                            //TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            TextDistance = (TextView) findViewById(R.id.distance);
+                            TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
 
                         }else{
 
