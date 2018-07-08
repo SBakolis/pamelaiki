@@ -288,10 +288,10 @@ public class MainActivity extends AppCompatActivity {
         SaturdayList.add(new sMarket("Κάτω Χαλάνδρι", 00.0, 38.011289, 23.802235));
         SaturdayList.add(new sMarket("Νέα Χαλκηδόνα", 00.0, 38.026400, 23.729543));
         //thn kyriakh kleistes
-
-
-
         SundayList.add(new sMarket("Αθηνα", 00.0, 37.943454, 23.618762));
+        SundayList.add(new sMarket("Αθηνα", 00.0, 35.943454, 23.618762));
+        SundayList.add(new sMarket("Αθηνα", 00.0, 36.943454, 23.618762));
+        SundayList.add(new sMarket("Αθηνα", 00.0, 38.943454, 23.618762));
         SaturdayList.add(new sMarket("Νίκαια 2η", 00.0, 37.999976, 23.641376));
 
 
