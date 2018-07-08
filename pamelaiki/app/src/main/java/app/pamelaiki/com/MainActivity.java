@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         ThursdayList.add(new sMarket("Αθήνα(Προμπονά)", 00.0, 38.026038, 23.735157));
         ThursdayList.add(new sMarket("Αθήνα(Σεπόλια)", 00.0, 38.000818, 23.717312)); //25/7
         ThursdayList.add(new sMarket("Βούλας", 00.0, 37.851104, 23.760300));
-        //ThursdayList.add(new sMarket("Νεραϊδα", 00.0, 37.960531, 23.748191)); // 9/7
+        ThursdayList.add(new sMarket("Νεραϊδα", 00.0, 37.960531, 23.748191)); // 9/7
         ThursdayList.add(new sMarket("Γαλάτσι", 00.0, 38.016511, 23.756531));
         ThursdayList.add(new sMarket("Γλυφάδα", 00.0, 37.867178, 23.749200));
         ThursdayList.add(new sMarket("Ελληνικό", 00.0, 37.890954, 23.755731)); //31/8
