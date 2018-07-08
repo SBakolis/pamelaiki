@@ -353,9 +353,10 @@ public class MainActivity extends AppCompatActivity {
 
             case "Sunday":
                 dayLongNameGreek = "Κυριακή";
-                main.setVisibility(View.GONE);
+               main.setVisibility(View.GONE);
                 Nomarket.setVisibility(View.VISIBLE);
                 sMarketList.addAll(SundayList);
+
                 break;
 
             default:

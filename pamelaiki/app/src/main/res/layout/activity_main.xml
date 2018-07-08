@@ -14,7 +14,11 @@
         app:srcCompat="@drawable/m1"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp" />
-
+    <TextView
+        android:id="@+id/nomarket"
+        android:layout_width="wrap_content"
+        android:layout_height="137dp"
+        android:text="@string/nomarket" />
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -23,13 +27,9 @@
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent">
-        <TextView
-            android:id="@+id/nomarket"
-            android:layout_width="wrap_content"
-            android:layout_height="137dp"
-            android:text="@string/nomarket" />
 
-        />
+
+
 
         <!--<ImageButton
             android:id="@+id/info"
