@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         MondayList.add(new sMarket("Λάρισα(Φιλιπούπολη)",0,39.631575, 22.390323));
         MondayList.add(new sMarket("Λάρισα(40 Μαρτύρων)",0,39.639857, 22.427890));
         MondayList.add(new sMarket("Λάρισα(Ανθούπολης)",0,39.625975, 22.420692)) ;
-        MondayList.add(new sMarket("Χανιά",0,35.508895, 24.026672));// 30/9
+        MondayList.add(new sMarket("Χανιά",0,35.508895, 24.026672));// 31/3/19
         //Tuesday
         TuesdayList.add(new sMarket("Αγ.Παρασκευή(Κοντόπευκο)",0,38.019121, 23.829085));//*
         TuesdayList.add(new sMarket("Άγ.Ανάργυροι(Ανάκασα)",0,38.041178, 23.732618));
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
        TuesdayList.add(new sMarket("Λάρισα(Σιδ.Σταθμού)",0,39.630125, 22.422853));
 
        //TuesdayList.add(new sMarket("Λάρισα(Αμπελόκηπων)",0,));
-        TuesdayList.add(new sMarket("Χανιά",0,35.498761, 24.025359));
+        TuesdayList.add(new sMarket("Χανιά",0,35.498761, 24.025359));//30/9
         //Wednesday
         WednesdayList.add(new sMarket("Άγ.Ανάργυροι",0,38.027045, 23.721258));
         WednesdayList.add(new sMarket("Μπραχάμι",0,37.936384, 23.735316));//*
