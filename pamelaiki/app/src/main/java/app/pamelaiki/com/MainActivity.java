@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
         SaturdayList.add(new sMarket("Μπουρνάζι", 00.0, 38.013657, 23.708943));
         SaturdayList.add(new sMarket("Χαϊδάρι(Αγία Γρηγορούσα)", 00.0, 38.015774, 23.671780));
         SaturdayList.add(new sMarket("Χαϊδάρι(Κουνέλια)", 00.0, 38.030577, 23.794105));
-        SaturdayList.add(new sMarket("Χαϊδάρι(Χαιδάρι)", 00.0, 38.002877, 23.661962)); // 31/8
+        SaturdayList.add(new sMarket("Χαϊδάρι", 00.0, 38.002877, 23.661962)); // 31/8
         SaturdayList.add(new sMarket("Κάτω Χαλάνδρι", 00.0, 38.011289, 23.802235));
         SaturdayList.add(new sMarket("Νέα Χαλκηδόνα", 00.0, 38.026400, 23.729543));
         SaturdayList.add(new sMarket("Βόλος",0,39.371789, 22.950627));//31/8
