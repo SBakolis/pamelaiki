@@ -14,21 +14,21 @@
         app:srcCompat="@drawable/m1"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp" />
+
     <TextView
         android:id="@+id/nomarket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="13dp"
+        android:text="@string/nomarket"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="9dp"
-        android:text="@string/nomarket" />
+        tools:layout_editor_absoluteY="44dp" />
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
