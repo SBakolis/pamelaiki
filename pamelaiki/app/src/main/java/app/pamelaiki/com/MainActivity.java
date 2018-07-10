@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 Intent gpsOptionsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(gpsOptionsIntent);
+                //finish();
+                //startActivity(getIntent());
             }
         });
 
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog = builder.create();
-
+        createLocationRequest();
 
         final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
 
@@ -456,6 +459,8 @@ public class MainActivity extends AppCompatActivity {
                         }else{
 
                             dialog.show();
+
+
                         }
                     }
                 })
@@ -468,6 +473,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                 });
+    }
+
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 }
 
