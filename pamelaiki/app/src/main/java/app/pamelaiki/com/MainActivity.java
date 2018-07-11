@@ -2,11 +2,16 @@ package app.pamelaiki.com;
 
 
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.LoaderManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +31,9 @@ import android.widget.TextView;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +46,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-import static com.google.android.gms.location.LocationServices.*;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     public final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
     public int n;
 
+    private LocationCallback mLocationCallback;
+    public LocationRequest mLocationRequest;
+
     public boolean hasFailed = false;
 
     public float[] results = new float[3];
@@ -72,7 +82,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        }
         listView = (ListView) findViewById(R.id.listView0);
 
         /*&ImageButton info=(ImageButton) findViewById(R.id.info);
@@ -103,8 +116,6 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog = builder.create();
         createLocationRequest();
-
-
 
         final ArrayList<sMarket> MondayList=new ArrayList<>();
         final ArrayList<sMarket> TuesdayList=new ArrayList<>();
@@ -411,12 +422,71 @@ public class MainActivity extends AppCompatActivity {
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
 
+        locateAndSort();
+
+    }
+
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        createLocationRequest();
+        startLocationUpdates();
+
+        if(hasFailed == true) {
+          locateAndSort();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    private void stopLocationUpdates() {
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    private void startLocationUpdates() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         }
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                mLocationCallback,
+                null /* Looper */);
+    }
+
+    public void locateAndSort()
+    {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        }
+
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    // Update UI with location data
+                    // ...
+                }
+            }
+
+            };
 
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -457,9 +527,10 @@ public class MainActivity extends AppCompatActivity {
                                 BestMarketList.add(temp);
                             }
                             TextDistance = (TextView) findViewById(R.id.distance);
-                            TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            TextDistance.setText(String.format("%.2f", sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            hasFailed = false;
 
-                        }else{
+                        } else {
                             hasFailed = true;
                             dialog.show();
 
@@ -478,87 +549,25 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    protected void createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
+
 
     @Override
-    public void onResume()
-    {
-        super.onResume();
-        createLocationRequest();
-        if(hasFailed == true) {
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode)
+        {
+            case 1 : {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    locateAndSort();
+                } else {
 
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                        1);
+                }
+                return;
             }
-
-            mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            // Got last known location. In some rare situations this can be null.
-                            if (location != null) {
-
-                                deviceLong = location.getLongitude();
-                                deviceLatt = location.getLatitude();
-
-                                locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
-                                n = sMarketList.size();
-                                //vriskei to distance kai to vazei sto antistoixo tou sMarket
-                                for (int counter = 0; counter < n; counter++) {
-
-
-                                    Location.distanceBetween(deviceLatt, deviceLong, sMarketList.get(counter).getlatt(), sMarketList.get(counter).getlongt(), results);
-
-                                    sMarketList.get(counter).setsMarketDistance(results[0] / 1000);
-
-                                }
-                                //sortarei ta sMarket
-                                for (int counter = 0; counter < n; counter++) {
-                                    for (int j = counter + 1; j < n; j++) {
-                                        if (sMarketList.get(counter).getsMarketDistance() > sMarketList.get(j).getsMarketDistance()) {
-
-                                            sMarket num = sMarketList.get(counter);
-                                            sMarketList.set(counter, sMarketList.get(j));
-                                            sMarketList.set(j, num);
-                                        }
-                                    }
-                                }
-                                //gemizei thn BestMarket me ta kontinotera
-                                for (int counter = 0; counter < 4; counter++) {
-
-                                    sMarket temp = sMarketList.get(counter);
-                                    BestMarketList.add(temp);
-                                }
-                                TextDistance = (TextView) findViewById(R.id.distance);
-                                TextDistance.setText(String.format("%.2f", sMarketList.get(0).getsMarketDistance()) + " χλμ");
-                                hasFailed = false;
-
-                            } else {
-                                hasFailed = true;
-                                dialog.show();
-
-
-                            }
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("MapDemoActivity", "Error trying to get last GPS location");
-                            e.printStackTrace();
-                        }
-
-
-                    });
         }
     }
+
 }
 
 
