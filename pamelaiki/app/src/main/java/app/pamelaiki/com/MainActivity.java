@@ -56,8 +56,11 @@ public class MainActivity extends AppCompatActivity {
     public double deviceLong;
     public TextView TextDistance;
     public TextView locationtest;
-
+    public final ArrayList<sMarket> sMarketList = new ArrayList<>();
+    public final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
     public int n;
+
+    public boolean hasFailed = false;
 
     public float[] results = new float[3];
     private AlertDialog.Builder builder;
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.listView0);
-        final ArrayList<sMarket> sMarketList = new ArrayList<>();
+
         /*&ImageButton info=(ImageButton) findViewById(R.id.info);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         dialog = builder.create();
         createLocationRequest();
 
-        final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+
 
         final ArrayList<sMarket> MondayList=new ArrayList<>();
         final ArrayList<sMarket> TuesdayList=new ArrayList<>();
@@ -457,7 +460,7 @@ public class MainActivity extends AppCompatActivity {
                             TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
 
                         }else{
-
+                            hasFailed = true;
                             dialog.show();
 
 
@@ -480,6 +483,81 @@ public class MainActivity extends AppCompatActivity {
         mLocationRequest.setInterval(10000);
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        createLocationRequest();
+        if(hasFailed == true) {
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        1);
+            }
+
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+
+                                deviceLong = location.getLongitude();
+                                deviceLatt = location.getLatitude();
+
+                                locationtest.setText("Recent Location " + deviceLong + "," + deviceLatt);
+                                n = sMarketList.size();
+                                //vriskei to distance kai to vazei sto antistoixo tou sMarket
+                                for (int counter = 0; counter < n; counter++) {
+
+
+                                    Location.distanceBetween(deviceLatt, deviceLong, sMarketList.get(counter).getlatt(), sMarketList.get(counter).getlongt(), results);
+
+                                    sMarketList.get(counter).setsMarketDistance(results[0] / 1000);
+
+                                }
+                                //sortarei ta sMarket
+                                for (int counter = 0; counter < n; counter++) {
+                                    for (int j = counter + 1; j < n; j++) {
+                                        if (sMarketList.get(counter).getsMarketDistance() > sMarketList.get(j).getsMarketDistance()) {
+
+                                            sMarket num = sMarketList.get(counter);
+                                            sMarketList.set(counter, sMarketList.get(j));
+                                            sMarketList.set(j, num);
+                                        }
+                                    }
+                                }
+                                //gemizei thn BestMarket me ta kontinotera
+                                for (int counter = 0; counter < 4; counter++) {
+
+                                    sMarket temp = sMarketList.get(counter);
+                                    BestMarketList.add(temp);
+                                }
+                                TextDistance = (TextView) findViewById(R.id.distance);
+                                TextDistance.setText(String.format("%.2f", sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                                hasFailed = false;
+
+                            } else {
+                                hasFailed = true;
+                                dialog.show();
+
+
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("MapDemoActivity", "Error trying to get last GPS location");
+                            e.printStackTrace();
+                        }
+
+
+                    });
+        }
     }
 }
 
