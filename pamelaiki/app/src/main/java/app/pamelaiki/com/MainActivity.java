@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
+import  	android.location.LocationManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -440,7 +440,6 @@ public class MainActivity extends AppCompatActivity {
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
 
-        locateAndSort();
 
     }
 
@@ -497,14 +496,15 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
 
-        createLocationRequest();
+            createLocationRequest();
 
-        mFusedLocationClient.getLastLocation()
+             mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
+                        LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
+                        if (location != null && manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
