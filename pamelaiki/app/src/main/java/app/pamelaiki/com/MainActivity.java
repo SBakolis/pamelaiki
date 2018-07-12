@@ -439,10 +439,13 @@ public class MainActivity extends AppCompatActivity {
         greetText = (TextView) findViewById(R.id.greetText);
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
-
-        locateAndSort();
-
-    }
+   if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+      locateAndSort();
+   }
+   else{
+      dialog.show();
+   }
+  }
 
     protected void createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
@@ -504,7 +507,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null && manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                        if (location != null) {
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
