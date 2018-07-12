@@ -2,11 +2,16 @@ package app.pamelaiki.com;
 
 
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.LoaderManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +30,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-import static com.google.android.gms.location.LocationServices.*;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,8 +64,14 @@ public class MainActivity extends AppCompatActivity {
     public double deviceLong;
     public TextView TextDistance;
     public TextView locationtest;
-
+    public final ArrayList<sMarket> sMarketList = new ArrayList<>();
+    public final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
     public int n;
+
+    private LocationCallback mLocationCallback;
+    public LocationRequest mLocationRequest;
+
+    public boolean hasFailed = false;
 
     public float[] results = new float[3];
     private AlertDialog.Builder builder;
@@ -68,9 +83,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        }
         listView = (ListView) findViewById(R.id.listView0);
-        final ArrayList<sMarket> sMarketList = new ArrayList<>();
+
         /*&ImageButton info=(ImageButton) findViewById(R.id.info);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 Intent gpsOptionsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(gpsOptionsIntent);
+                //finish();
+                //startActivity(getIntent());
             }
         });
 
@@ -96,9 +116,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog = builder.create();
+        createLocationRequest();
 
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    double alt = location.getLatitude();
+                    double alt2 = location.getLongitude();
+                    Log.d("test","a:"+ alt + alt2);
 
-        final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+                }
+            }
+
+        };
 
         final ArrayList<sMarket> MondayList=new ArrayList<>();
         final ArrayList<sMarket> TuesdayList=new ArrayList<>();
@@ -380,6 +414,7 @@ public class MainActivity extends AppCompatActivity {
             case "Thursday":
                 dayLongNameGreek = "Πέμπτη";
                 sMarketList.addAll(ThursdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Friday":
@@ -410,14 +445,66 @@ public class MainActivity extends AppCompatActivity {
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
 
+        locateAndSort();
+
+    }
+
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        createLocationRequest();
+        startLocationUpdates();
+
+        if(hasFailed == true) {
+          locateAndSort();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    private void stopLocationUpdates() {
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    private void startLocationUpdates() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        }
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                mLocationCallback,
+                null /* Looper */);
 
+
+    }
+
+
+
+    public void locateAndSort()
+    {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         }
 
-        mFusedLocationClient.getLastLocation()
+            createLocationRequest();
+
+             mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
@@ -456,11 +543,14 @@ public class MainActivity extends AppCompatActivity {
                                 BestMarketList.add(temp);
                             }
                             TextDistance = (TextView) findViewById(R.id.distance);
-                            TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            TextDistance.setText(String.format("%.2f", sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            hasFailed = false;
 
-                        }else{
-
+                        } else {
+                            hasFailed = true;
                             dialog.show();
+
+
                         }
                     }
                 })
@@ -474,6 +564,26 @@ public class MainActivity extends AppCompatActivity {
 
                 });
     }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode)
+        {
+            case 1 : {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    locateAndSort();
+                } else {
+
+                }
+                return;
+            }
+        }
+    }
+
 }
 
 
