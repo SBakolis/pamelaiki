@@ -47,6 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
+import static android.location.LocationManager.GPS_PROVIDER;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -492,6 +493,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+public LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
 
 
     public void locateAndSort()
@@ -509,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
+                        if (location != null && manager.isProviderEnabled(GPS_PROVIDER)) {
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
