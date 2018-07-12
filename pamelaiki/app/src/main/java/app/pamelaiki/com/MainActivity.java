@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public final ArrayList<sMarket> sMarketList = new ArrayList<>();
     public final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
     public int n;
-    public LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
+
     private LocationCallback mLocationCallback;
     public LocationRequest mLocationRequest;
 
@@ -503,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null && manager.isProviderEnabled(GPS_PROVIDER)) {
+                        if (location != null ) {
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
