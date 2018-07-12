@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -116,6 +117,21 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog = builder.create();
         createLocationRequest();
+
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    double alt = location.getLatitude();
+                    double alt2 = location.getLongitude();
+                    Log.d("test","a:"+ alt + alt2);
+                }
+            }
+
+        };
 
         final ArrayList<sMarket> MondayList=new ArrayList<>();
         final ArrayList<sMarket> TuesdayList=new ArrayList<>();
@@ -392,6 +408,7 @@ public class MainActivity extends AppCompatActivity {
             case "Thursday":
                 dayLongNameGreek = "Πέμπτη";
                 sMarketList.addAll(ThursdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Friday":
@@ -428,10 +445,11 @@ public class MainActivity extends AppCompatActivity {
 
     protected void createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
+
 
     @Override
     public void onResume()
@@ -464,7 +482,11 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                 mLocationCallback,
                 null /* Looper */);
+
+
     }
+
+
 
     public void locateAndSort()
     {
@@ -474,19 +496,7 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
 
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                for (Location location : locationResult.getLocations()) {
-                    // Update UI with location data
-                    // ...
-                }
-            }
 
-            };
 
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
