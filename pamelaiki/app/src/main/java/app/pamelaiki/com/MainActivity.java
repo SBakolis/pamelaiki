@@ -503,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
+                       // LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
                         if (location != null /*&& manager.isProviderEnabled(LocationManager.GPS_PROVIDER)*/) {
 
                             deviceLong = location.getLongitude();
