@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     double alt = location.getLatitude();
                     double alt2 = location.getLongitude();
                     Log.d("test","a:"+ alt + alt2);
-                    locateAndSort();
+
                 }
             }
 
@@ -497,7 +497,7 @@ public class MainActivity extends AppCompatActivity {
                     1);
         }
 
-
+        createLocationRequest();
 
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
