@@ -47,6 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
+import static android.location.LocationManager.GPS_PROVIDER;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public final ArrayList<sMarket> sMarketList = new ArrayList<>();
     public final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
     public int n;
-
+    public LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
     private LocationCallback mLocationCallback;
     public LocationRequest mLocationRequest;
 
@@ -439,12 +440,7 @@ public class MainActivity extends AppCompatActivity {
         greetText = (TextView) findViewById(R.id.greetText);
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
-   if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-      locateAndSort();
-   }
-   else{
-      dialog.show();
-   }
+
   }
 
     protected void createLocationRequest() {
@@ -490,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
+
 
     public void locateAndSort()
     {
@@ -507,7 +503,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
+                        if (location != null && manager.isProviderEnabled(GPS_PROVIDER)) {
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
