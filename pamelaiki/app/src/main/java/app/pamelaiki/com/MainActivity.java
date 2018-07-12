@@ -47,7 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-import static android.location.LocationManager.GPS_PROVIDER;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog = builder.create();
         createLocationRequest();
-
+        locateAndSort();
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<sMarket> FridayList=new ArrayList<>();
         final ArrayList<sMarket> SaturdayList=new ArrayList<>();
         final ArrayList<sMarket> SundayList=new ArrayList<>();
+
        // sta sxolia opou exw * shmainei oti arxise na isxuei apo kapoia hmeromhnia kai meta,ara tha prepei na prosexoume mhpws xreiastei na kanoume update an allaksei pali topothesia,epishs opou exw hmeromhnia shmainei oti mexri tote tha einai sthn topothesia auth kai meta tha allaksei
         MondayList.add(new sMarket("Γλυφάδα(Πυρνάρι)", 00.0, 37.873114, 23.762878));
         MondayList.add(new sMarket("Ίλιον(Ζωοδόχου Πηγής)", 00.0, 38.021728, 23.698081));
@@ -486,8 +487,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     public void locateAndSort()
     {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -543,8 +542,6 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             hasFailed = true;
                             dialog.show();
-
-
                         }
                     }
                 })
