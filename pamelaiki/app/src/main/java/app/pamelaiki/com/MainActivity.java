@@ -119,7 +119,14 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog = builder.create();
         createLocationRequest();
-        locateAndSort();
+        LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
+        if(manager.isProviderEnabled(NETWORK_PROVIDER) || manager.isProviderEnabled(GPS_PROVIDER)){
+            locateAndSort();
+        }
+        else {
+            hasFailed=true;
+            dialog.show();
+        }
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -442,11 +449,8 @@ public class MainActivity extends AppCompatActivity {
         greetText = (TextView) findViewById(R.id.greetText);
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
-        LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
-        if(manager.isProviderEnabled(NETWORK_PROVIDER) && manager.isProviderEnabled(GPS_PROVIDER)){
-              locateAndSort();
-         }
-         else dialog.show();
+
+
   }
 
     protected void createLocationRequest() {
