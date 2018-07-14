@@ -8,6 +8,7 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -30,15 +31,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-
+import com.google.android.gms.tasks.Task;
 
 
 import java.util.ArrayList;
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     public LocationManager manager;
     private LocationCallback mLocationCallback;
     public LocationRequest mLocationRequest;
-
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     public boolean hasFailed = false;
 
     public float[] results = new float[3];
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         }
+         checkPlayServices();
         listView = (ListView) findViewById(R.id.listView0);
 
         /*&ImageButton info=(ImageButton) findViewById(R.id.info);
@@ -118,15 +126,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog = builder.create();
-        createLocationRequest();
         LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
         if(manager.isProviderEnabled(NETWORK_PROVIDER) || manager.isProviderEnabled(GPS_PROVIDER)){
+            createLocationRequest();
             locateAndSort();
         }
         else {
             hasFailed=true;
             dialog.show();
         }
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                // All location settings are satisfied. The client can initialize
+                // location requests here.
+                // ...
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MainActivity.this,
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
+                }
+            }
+        });
+
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -563,7 +603,19 @@ public class MainActivity extends AppCompatActivity {
 
                 });
     }
-
+    private boolean checkPlayServices() {
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        if (result != ConnectionResult.SUCCESS) {
+            int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+            if (googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this, result,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            return false;
+        }
+            return true;
+        }
 
 
     @Override
