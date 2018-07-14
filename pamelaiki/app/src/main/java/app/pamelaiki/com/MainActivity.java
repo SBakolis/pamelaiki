@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog = builder.create();
         LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
-        if(manager.isProviderEnabled(GPS_PROVIDER)){ //|| manager.isProviderEnabled(GPS_PROVIDER)){
+        if(manager.isProviderEnabled(NETWORK_PROVIDER) || manager.isProviderEnabled(GPS_PROVIDER)){
             createLocationRequest();
             locateAndSort();
         }
