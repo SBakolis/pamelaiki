@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         }
-         checkPlayServices();
+
         listView = (ListView) findViewById(R.id.listView0);
 
         /*&ImageButton info=(ImageButton) findViewById(R.id.info);
@@ -603,19 +603,7 @@ public class MainActivity extends AppCompatActivity {
 
                 });
     }
-    private boolean checkPlayServices() {
-        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
-        int result = googleAPI.isGooglePlayServicesAvailable(this);
-        if (result != ConnectionResult.SUCCESS) {
-            int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
-            if (googleAPI.isUserResolvableError(result)) {
-                googleAPI.getErrorDialog(this, result,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            }
-            return false;
-        }
-            return true;
-        }
+
 
 
     @Override
