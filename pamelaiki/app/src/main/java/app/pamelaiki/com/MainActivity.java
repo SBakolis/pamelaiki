@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
 
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        /*LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         SettingsClient client = LocationServices.getSettingsClient(this);
         Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
         task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        });
+        });*/
 
         mLocationCallback = new LocationCallback() {
             @Override
