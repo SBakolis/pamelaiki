@@ -267,7 +267,18 @@ public class MainActivity extends AppCompatActivity {
        TuesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.337688, 25.159855));
        TuesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.307927, 25.146718));
        TuesdayList.add(new sMarket("Λάρισα(Σιδ.Σταθμού)",0,39.630125, 22.422853));
+       TuesdayList.add(new sMarket("Θεσσαλονίκη(Παπαδάκη)",0,40.593029, 22.962282));
        //TuesdayList.add(new sMarket("Λάρισα(Αμπελόκηπων)",0,));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Μαλακόπη)",0,40.610490, 22.980438));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Ν.Κρήνη)",0,40.568087, 22.961409));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Κιμ.Βογά)",0,40.598446, 22.953524));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(40 Εκκλησίες)",0,40.632831, 22.964834));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Κάτω Ηλιούπολη)",0,40.664865, 22.924956));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Ζωοδόχου Πηγής)",0,40.653854, 22.917772));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Αριστοτέλους)",0,40.666301, 22.911870));
+        TuesdayList.add(new sMarket("Εύοσμος(Δημαρχείο)",0,40.670116, 22.910156));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Πολίχνης)",0,40.659445, 22.943013));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη()",0,));
         TuesdayList.add(new sMarket("Χανιά",0,35.498761, 24.025359));
         //Wednesday
         WednesdayList.add(new sMarket("Άγ.Ανάργυροι",0,38.027045, 23.721258));
@@ -305,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
         WednesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,  35.3260147, 25.114094 ));
         WednesdayList.add(new sMarket("Λάρισα(Αγ.Αθανάσιου)",0,39.640380, 22.409214));
         WednesdayList.add(new sMarket("Λάρισα(Νεράιδας)",0,39.624528, 22.413740));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη()",0,));
         //Thursday
         ThursdayList.add(new sMarket("Άνω Αγία Βαρβάρα", 00.0, 37.986196, 23.649571));
         ThursdayList.add(new sMarket("Αθήνα(Άγιος Ελευθέριος)", 00.0, 38.017871, 23.726214));
