@@ -31,6 +31,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,6 +58,10 @@ import java.util.Locale;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 import static android.location.LocationManager.NETWORK_PROVIDER;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -86,12 +92,27 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     public AlertDialog dialog;
 
+    private AlertDialog.Builder buildermaps;
+    public AlertDialog dialogmaps;
+
+    private AdView mAdView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, "ca-app-pub-6028798031014902~4137361226");
+
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-6028798031014902/2891303134");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
@@ -117,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        builder.setMessage("Για τη σωστή λειτουργεία της εφαρμογής θα πρέπει να ενεργοποιήσετε το GPS, πατήστε ΟΚ για ενεργοποίηση.")
+        builder.setMessage("Για τη σωστή λειτουργία της εφαρμογής θα πρέπει να ενεργοποιήσετε το GPS, πατήστε ΟΚ για ενεργοποίηση.")
                 .setTitle("Ενεργοποιήστε το GPS.");
 
         builder.setNegativeButton("Έξοδος", new DialogInterface.OnClickListener() {
@@ -126,6 +147,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog = builder.create();
+
+        buildermaps = new AlertDialog.Builder(MainActivity.this);
+
+        buildermaps.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q= Πλατεία Συντάγματος , Αθήνα");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+
+        buildermaps.setMessage("Η τοποθεσία της συσκευής σας δεν έχει ενημερωθεί, πατήστε ΟΚ για να ενημερώσετε την τοποθεσία σας μέσω του Google Maps ή Έξοδος για έξοδο από την εφαρμογή.")
+                .setTitle("Δεν υπάρχει πρόσφατη τοποθεσία.");
+
+        buildermaps.setNegativeButton("Έξοδος", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                System.exit(0);
+            }
+        });
+        dialogmaps = buildermaps.create();
+
         LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
         if(manager.isProviderEnabled(NETWORK_PROVIDER) || manager.isProviderEnabled(GPS_PROVIDER)){
             createLocationRequest();
@@ -234,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
         MondayList.add(new sMarket("Λάρισα(Φιλιπούπολη)",0,39.631575, 22.390323));
         MondayList.add(new sMarket("Λάρισα(40 Μαρτύρων)",0,39.639857, 22.427890));
         MondayList.add(new sMarket("Λάρισα(Ανθούπολης)",0,39.625975, 22.420692)) ;
+        MondayList.add(new sMarket("Θεσσαλονίκη(Αλλατίνη)", 00.0, 40.608813, 22.960485));
+        MondayList.add(new sMarket("Θεσσαλονίκη(Κυβέλια)", 00.0, 40.614213, 22.956000));
         //Tuesday
         TuesdayList.add(new sMarket("Αγ.Παρασκευή(Κοντόπευκο)",0,38.019121, 23.829085));//*
         TuesdayList.add(new sMarket("Άγ.Ανάργυροι(Ανάκασα)",0,38.041178, 23.732618));
@@ -273,6 +318,16 @@ public class MainActivity extends AppCompatActivity {
        TuesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.337688, 25.159855));
        TuesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.307927, 25.146718));
        TuesdayList.add(new sMarket("Λάρισα(Σιδ.Σταθμού)",0,39.630125, 22.422853));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Μαλακόπη)",0,40.610490, 22.980438));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Ν.Κρήνη)",0,40.568087, 22.961409));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Κιμ.Βογά)",0,40.598446, 22.953524));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(40 Εκκλησίες)",0,40.632831, 22.964834));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Κάτω Ηλιούπολη)",0,40.664865, 22.924956));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Ζωοδόχου Πηγής)",0,40.653854, 22.917772));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Αριστοτέλους)",0,40.666301, 22.911870));
+        TuesdayList.add(new sMarket("Εύοσμος(Δημαρχείο)",0,40.670116, 22.910156));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Πολίχνης)",0,40.659445, 22.943013));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Παπαδάκη)",0,40.593029, 22.962282));
        //TuesdayList.add(new sMarket("Λάρισα(Αμπελόκηπων)",0,));
         TuesdayList.add(new sMarket("Χανιά",0,35.498761, 24.025359));
         //Wednesday
@@ -311,6 +366,13 @@ public class MainActivity extends AppCompatActivity {
         WednesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,  35.3260147, 25.114094 ));
         WednesdayList.add(new sMarket("Λάρισα(Αγ.Αθανάσιου)",0,39.640380, 22.409214));
         WednesdayList.add(new sMarket("Λάρισα(Νεράιδας)",0,39.624528, 22.413740));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Άνω Τούμπα)",0,40.614083, 22.969768));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Σόλωνος-Κρήτης)",0,40.599478, 22.958124));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Λιτόχωρου)",0,40.621260, 22.961048));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Π.Μελά)",0,40.657189, 22.932225));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Συκιές)",0,40.650494, 22.948042));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Δαβάκη)",0,40.645480, 22.951704));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Φλέμινγκ)",0,40.667863, 22.932788));
         //Thursday
         ThursdayList.add(new sMarket("Άνω Αγία Βαρβάρα", 00.0, 37.986196, 23.649571));
         ThursdayList.add(new sMarket("Αθήνα(Άγιος Ελευθέριος)", 00.0, 38.017871, 23.726214));
@@ -344,6 +406,16 @@ public class MainActivity extends AppCompatActivity {
         ThursdayList.add(new sMarket("Λάρισα(Ν.Σμύρνης)",0,39.648203, 22.434603));
         ThursdayList.add(new sMarket("Λάρισα(Αγ.Γεωργίου)",0,39.631118, 22.441745));
         ThursdayList.add(new sMarket("Λάρισα(Αβέρωφ)",0,39.613946, 22.426832));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Καλαμαριά)",0,40.585087, 22.952060));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Κανάρη)",0,40.607029, 22.968563));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Πυλαία)",0,40.598889, 22.990984));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Αγ.Παύλος)",0,40.640547, 22.963316));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Φοίνικας)",0,40.579310, 22.967851));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Γκράτσιου)",0,40.641231, 22.946566));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Καλλιθέα)",0,40.645523, 22.939863));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Πολίχνη)",0,40.660845, 22.951423));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Δενδροπόταμος)",0,40.657141, 22.899520));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Νικόπολη)",0,40.682893, 22.933908));
         //Friday
         FridayList.add(new sMarket("Αγία Παρασκευή", 00.0, 38.009760, 23.820662));
         FridayList.add(new sMarket("Άγιος Δημήτριος(Ανθέων)", 00.0, 37.933661, 23.741072));
@@ -377,6 +449,13 @@ public class MainActivity extends AppCompatActivity {
         FridayList.add(new sMarket("Λαμία(Γαλανέϊκα)",0,38.916046, 22.428907));
         FridayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.32679, 25.120651));
         FridayList.add(new sMarket("Λάρισα(Βιολογικά Προϊόντα)",0,39.619240, 22.402302));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Τριανδρία)",0,40.620958, 22.972036));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Χατζηλαζάρου)",0,40.606926, 22.956114));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Κηφισιά)",0,40.585749, 22.967882));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Σταυρούπολη)",0,40.664179, 22.935701));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Εύοσμος)",0,40.663769, 22.911763));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Καυτατζόγλου)",0,40.623469, 22.968907));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Μετέωρα)",0,40.656126, 22.956639));
         //Saturday
         SaturdayList.add(new sMarket("Άγιοι Ανάργυροι", 00.0, 38.047698, 23.732443));
         SaturdayList.add(new sMarket("Αθήνα(Άγιος Γεώργιος)", 00.0, 37.952425, 23.722328));
@@ -409,6 +488,14 @@ public class MainActivity extends AppCompatActivity {
         SaturdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.3302599, 25.1415444));
         SaturdayList.add(new sMarket("Λάρισα(Νεάπολης)",0,39.624152, 22.395816));
         SaturdayList.add(new sMarket("Χανιά",0,35.516744, 24.023637));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Μαρτίου)",0,40.599554, 22.963281));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Ξηροκρήνη)",0,40.648513, 22.931185));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Νεάπολη)",0,40.653185, 22.936572));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Παυσανία)",0,40.613623, 22.982869));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Κορδελιό)",0,40.671763, 22.892359));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Αγ.Νικόλαος)",0,40.576300, 22.951419));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Εύοσμος)",0,40.676101, 22.923314));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Κανάρη)",0,40.659417, 22.943204));
         //thn kyriakh kleistes
         SundayList.add(new sMarket("Αθηνα", 00.0, 37.943454, 23.618762));
         SundayList.add(new sMarket("Αθηνα", 00.0, 35.943454, 23.618762));
@@ -589,7 +676,7 @@ public class MainActivity extends AppCompatActivity {
 
                         } else {
                             hasFailed = true;
-                            dialog.show();
+                            dialogmaps.show();
                         }
                     }
                 })
