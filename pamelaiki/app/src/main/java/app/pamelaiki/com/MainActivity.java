@@ -2,11 +2,17 @@ package app.pamelaiki.com;
 
 
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.app.LoaderManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,12 +31,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-
+import com.google.android.gms.tasks.Task;
 
 
 import java.util.ArrayList;
@@ -39,7 +56,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-import static com.google.android.gms.location.LocationServices.*;
+import static android.location.LocationManager.GPS_PROVIDER;
+import static android.location.LocationManager.NETWORK_PROVIDER;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,13 +79,23 @@ public class MainActivity extends AppCompatActivity {
     public double deviceLong;
     public TextView TextDistance;
     public TextView locationtest;
-
+    public final ArrayList<sMarket> sMarketList = new ArrayList<>();
+    public final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
     public int n;
+    public LocationManager manager;
+    private LocationCallback mLocationCallback;
+    public LocationRequest mLocationRequest;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    public boolean hasFailed = false;
 
     public float[] results = new float[3];
     private AlertDialog.Builder builder;
     public AlertDialog dialog;
 
+    private AlertDialog.Builder buildermaps;
+    public AlertDialog dialogmaps;
+
+    private AdView mAdView;
 
 
     @Override
@@ -70,8 +103,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MobileAds.initialize(this, "ca-app-pub-6028798031014902~4137361226");
+
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-6028798031014902/2891303134");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        }
+         checkPlayServices();
         listView = (ListView) findViewById(R.id.listView0);
-        final ArrayList<sMarket> sMarketList = new ArrayList<>();
+
         /*&ImageButton info=(ImageButton) findViewById(R.id.info);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        builder.setMessage("Για τη σωστή λειτουργεία της εφαρμογής θα πρέπει να ενεργοποιήσετε το GPS, πατήστε ΟΚ για ενεργοποίηση.")
+        builder.setMessage("Για τη σωστή λειτουργία της εφαρμογής θα πρέπει να ενεργοποιήσετε το GPS, πατήστε ΟΚ για ενεργοποίηση.")
                 .setTitle("Ενεργοποιήστε το GPS.");
 
         builder.setNegativeButton("Έξοδος", new DialogInterface.OnClickListener() {
@@ -99,9 +147,84 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog = builder.create();
-        createLocationRequest();
 
-        final ArrayList<sMarket> BestMarketList = new ArrayList<>();//h lista p tha emfanizetai me tis kaluteres 4,to allaksa kai sto adapter
+        buildermaps = new AlertDialog.Builder(MainActivity.this);
+
+        buildermaps.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q= Πλατεία Συντάγματος , Αθήνα");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+
+        buildermaps.setMessage("Η τοποθεσία της συσκευής σας δεν έχει ενημερωθεί, πατήστε ΟΚ για να ενημερώσετε την τοποθεσία σας μέσω του Google Maps ή Έξοδος για έξοδο από την εφαρμογή.")
+                .setTitle("Δεν υπάρχει πρόσφατη τοποθεσία.");
+
+        buildermaps.setNegativeButton("Έξοδος", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                System.exit(0);
+            }
+        });
+        dialogmaps = buildermaps.create();
+
+        LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
+        if(manager.isProviderEnabled(NETWORK_PROVIDER) || manager.isProviderEnabled(GPS_PROVIDER)){
+            createLocationRequest();
+            locateAndSort();
+        }
+        else {
+            hasFailed=true;
+            dialog.show();
+        }
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                // All location settings are satisfied. The client can initialize
+                // location requests here.
+                // ...
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MainActivity.this,
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
+                }
+            }
+        });
+
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    double alt = location.getLatitude();
+                    double alt2 = location.getLongitude();
+                    Log.d("test","a:"+ alt + alt2);
+
+                }
+            }
+
+        };
 
         final ArrayList<sMarket> MondayList=new ArrayList<>();
         final ArrayList<sMarket> TuesdayList=new ArrayList<>();
@@ -110,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         final ArrayList<sMarket> FridayList=new ArrayList<>();
         final ArrayList<sMarket> SaturdayList=new ArrayList<>();
         final ArrayList<sMarket> SundayList=new ArrayList<>();
+
        // sta sxolia opou exw * shmainei oti arxise na isxuei apo kapoia hmeromhnia kai meta,ara tha prepei na prosexoume mhpws xreiastei na kanoume update an allaksei pali topothesia,epishs opou exw hmeromhnia shmainei oti mexri tote tha einai sthn topothesia auth kai meta tha allaksei
         MondayList.add(new sMarket("Γλυφάδα(Πυρνάρι)", 00.0, 37.873114, 23.762878));
         MondayList.add(new sMarket("Ίλιον(Ζωοδόχου Πηγής)", 00.0, 38.021728, 23.698081));
@@ -153,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
         MondayList.add(new sMarket("Λάρισα(Φιλιπούπολη)",0,39.631575, 22.390323));
         MondayList.add(new sMarket("Λάρισα(40 Μαρτύρων)",0,39.639857, 22.427890));
         MondayList.add(new sMarket("Λάρισα(Ανθούπολης)",0,39.625975, 22.420692)) ;
+        MondayList.add(new sMarket("Θεσσαλονίκη(Αλλατίνη)", 00.0, 40.608813, 22.960485));
+        MondayList.add(new sMarket("Θεσσαλονίκη(Κυβέλια)", 00.0, 40.614213, 22.956000));
         //Tuesday
         TuesdayList.add(new sMarket("Αγ.Παρασκευή(Κοντόπευκο)",0,38.019121, 23.829085));//*
         TuesdayList.add(new sMarket("Άγ.Ανάργυροι(Ανάκασα)",0,38.041178, 23.732618));
@@ -192,6 +318,16 @@ public class MainActivity extends AppCompatActivity {
        TuesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.337688, 25.159855));
        TuesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.307927, 25.146718));
        TuesdayList.add(new sMarket("Λάρισα(Σιδ.Σταθμού)",0,39.630125, 22.422853));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Μαλακόπη)",0,40.610490, 22.980438));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Ν.Κρήνη)",0,40.568087, 22.961409));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Κιμ.Βογά)",0,40.598446, 22.953524));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(40 Εκκλησίες)",0,40.632831, 22.964834));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Κάτω Ηλιούπολη)",0,40.664865, 22.924956));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Ζωοδόχου Πηγής)",0,40.653854, 22.917772));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Αριστοτέλους)",0,40.666301, 22.911870));
+        TuesdayList.add(new sMarket("Εύοσμος(Δημαρχείο)",0,40.670116, 22.910156));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Πολίχνης)",0,40.659445, 22.943013));
+        TuesdayList.add(new sMarket("Θεσσαλονίκη(Παπαδάκη)",0,40.593029, 22.962282));
        //TuesdayList.add(new sMarket("Λάρισα(Αμπελόκηπων)",0,));
         TuesdayList.add(new sMarket("Χανιά",0,35.498761, 24.025359));
         //Wednesday
@@ -230,6 +366,13 @@ public class MainActivity extends AppCompatActivity {
         WednesdayList.add(new sMarket("Ηράκλειο Κρήτης",0,  35.3260147, 25.114094 ));
         WednesdayList.add(new sMarket("Λάρισα(Αγ.Αθανάσιου)",0,39.640380, 22.409214));
         WednesdayList.add(new sMarket("Λάρισα(Νεράιδας)",0,39.624528, 22.413740));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Άνω Τούμπα)",0,40.614083, 22.969768));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Σόλωνος-Κρήτης)",0,40.599478, 22.958124));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Λιτόχωρου)",0,40.621260, 22.961048));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Π.Μελά)",0,40.657189, 22.932225));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Συκιές)",0,40.650494, 22.948042));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Δαβάκη)",0,40.645480, 22.951704));
+        WednesdayList.add(new sMarket("Θεσσαλονίκη(Φλέμινγκ)",0,40.667863, 22.932788));
         //Thursday
         ThursdayList.add(new sMarket("Άνω Αγία Βαρβάρα", 00.0, 37.986196, 23.649571));
         ThursdayList.add(new sMarket("Αθήνα(Άγιος Ελευθέριος)", 00.0, 38.017871, 23.726214));
@@ -263,6 +406,16 @@ public class MainActivity extends AppCompatActivity {
         ThursdayList.add(new sMarket("Λάρισα(Ν.Σμύρνης)",0,39.648203, 22.434603));
         ThursdayList.add(new sMarket("Λάρισα(Αγ.Γεωργίου)",0,39.631118, 22.441745));
         ThursdayList.add(new sMarket("Λάρισα(Αβέρωφ)",0,39.613946, 22.426832));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Καλαμαριά)",0,40.585087, 22.952060));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Κανάρη)",0,40.607029, 22.968563));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Πυλαία)",0,40.598889, 22.990984));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Αγ.Παύλος)",0,40.640547, 22.963316));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Φοίνικας)",0,40.579310, 22.967851));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Γκράτσιου)",0,40.641231, 22.946566));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Καλλιθέα)",0,40.645523, 22.939863));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Πολίχνη)",0,40.660845, 22.951423));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Δενδροπόταμος)",0,40.657141, 22.899520));
+        ThursdayList.add(new sMarket("Θεσσαλονίκη(Νικόπολη)",0,40.682893, 22.933908));
         //Friday
         FridayList.add(new sMarket("Αγία Παρασκευή", 00.0, 38.009760, 23.820662));
         FridayList.add(new sMarket("Άγιος Δημήτριος(Ανθέων)", 00.0, 37.933661, 23.741072));
@@ -296,6 +449,13 @@ public class MainActivity extends AppCompatActivity {
         FridayList.add(new sMarket("Λαμία(Γαλανέϊκα)",0,38.916046, 22.428907));
         FridayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.32679, 25.120651));
         FridayList.add(new sMarket("Λάρισα(Βιολογικά Προϊόντα)",0,39.619240, 22.402302));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Τριανδρία)",0,40.620958, 22.972036));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Χατζηλαζάρου)",0,40.606926, 22.956114));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Κηφισιά)",0,40.585749, 22.967882));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Σταυρούπολη)",0,40.664179, 22.935701));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Εύοσμος)",0,40.663769, 22.911763));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Καυτατζόγλου)",0,40.623469, 22.968907));
+        FridayList.add(new sMarket("Θεσσαλονίκη(Μετέωρα)",0,40.656126, 22.956639));
         //Saturday
         SaturdayList.add(new sMarket("Άγιοι Ανάργυροι", 00.0, 38.047698, 23.732443));
         SaturdayList.add(new sMarket("Αθήνα(Άγιος Γεώργιος)", 00.0, 37.952425, 23.722328));
@@ -328,6 +488,14 @@ public class MainActivity extends AppCompatActivity {
         SaturdayList.add(new sMarket("Ηράκλειο Κρήτης",0,35.3302599, 25.1415444));
         SaturdayList.add(new sMarket("Λάρισα(Νεάπολης)",0,39.624152, 22.395816));
         SaturdayList.add(new sMarket("Χανιά",0,35.516744, 24.023637));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Μαρτίου)",0,40.599554, 22.963281));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Ξηροκρήνη)",0,40.648513, 22.931185));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Νεάπολη)",0,40.653185, 22.936572));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Παυσανία)",0,40.613623, 22.982869));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Κορδελιό)",0,40.671763, 22.892359));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Αγ.Νικόλαος)",0,40.576300, 22.951419));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Εύοσμος)",0,40.676101, 22.923314));
+        SaturdayList.add(new sMarket("Θεσσαλονίκη(Κανάρη)",0,40.659417, 22.943204));
         //thn kyriakh kleistes
         SundayList.add(new sMarket("Αθηνα", 00.0, 37.943454, 23.618762));
         SundayList.add(new sMarket("Αθηνα", 00.0, 35.943454, 23.618762));
@@ -378,6 +546,7 @@ public class MainActivity extends AppCompatActivity {
             case "Thursday":
                 dayLongNameGreek = "Πέμπτη";
                 sMarketList.addAll(ThursdayList);
+                Nomarket.setVisibility(View.GONE);
                 break;
 
             case "Friday":
@@ -408,19 +577,67 @@ public class MainActivity extends AppCompatActivity {
         greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
 
+
+  }
+
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setNumUpdates(1);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        createLocationRequest();
+        startLocationUpdates();
+
+        if(hasFailed == true) {
+          locateAndSort();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    private void stopLocationUpdates() {
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+    }
+
+    private void startLocationUpdates() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        }
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                mLocationCallback,
+                null /* Looper */);
 
+
+    }
+
+    public void locateAndSort()
+    {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         }
 
-        mFusedLocationClient.getLastLocation()
+            createLocationRequest();
+
+             mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
+                        if (location != null ){
 
                             deviceLong = location.getLongitude();
                             deviceLatt = location.getLatitude();
@@ -454,13 +671,12 @@ public class MainActivity extends AppCompatActivity {
                                 BestMarketList.add(temp);
                             }
                             TextDistance = (TextView) findViewById(R.id.distance);
-                            TextDistance.setText(String.format("%.2f",sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            TextDistance.setText(String.format("%.2f", sMarketList.get(0).getsMarketDistance()) + " χλμ");
+                            hasFailed = false;
 
-                        }else{
-
-                            dialog.show();
-
-
+                        } else {
+                            hasFailed = true;
+                            dialogmaps.show();
                         }
                     }
                 })
@@ -474,13 +690,38 @@ public class MainActivity extends AppCompatActivity {
 
                 });
     }
+    private boolean checkPlayServices() {
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(this);
+        if (result != ConnectionResult.SUCCESS) {
+            int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+            if (googleAPI.isUserResolvableError(result)) {
+                googleAPI.getErrorDialog(this, result,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            return false;
+        }
+            return true;
+        }
 
-    protected void createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode)
+        {
+            case 1 : {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    locateAndSort();
+                } else {
+
+                }
+                return;
+            }
+        }
     }
+
 }
 
 
