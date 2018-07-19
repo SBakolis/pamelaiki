@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         }
-         checkPlayServices();
+
         listView = (ListView) findViewById(R.id.listView0);
 
         /*&ImageButton info=(ImageButton) findViewById(R.id.info);
@@ -642,7 +642,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-public LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVICE);
 
 
 
@@ -702,7 +701,9 @@ public LocationManager manager=(LocationManager) getSystemService(LOCATION_SERVI
 
                         } else {
                             hasFailed = true;
+
                             dialogmaps.show();
+                            dialog.dismiss();
                         }
                     }
                 })
