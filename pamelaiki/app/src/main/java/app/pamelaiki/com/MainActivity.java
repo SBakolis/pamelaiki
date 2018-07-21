@@ -13,7 +13,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,18 +24,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+
+
 import android.widget.ListView;
+
 import android.widget.TextView;
 
 
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.GoogleApiClient;
+
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -50,15 +49,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.Locale;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 
 import static android.location.LocationManager.NETWORK_PROVIDER;
+
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.AdRequest;
@@ -66,7 +67,7 @@ import com.google.android.gms.ads.AdView;
 
 
 
-public class MainActivity extends AppCompatActivity {
+public class    MainActivity extends AppCompatActivity {
 
     private  View main;
     private ListView listView;
@@ -89,11 +90,11 @@ public class MainActivity extends AppCompatActivity {
     public LocationRequest mLocationRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     public boolean hasFailed = false;
-
+    public String Greet;
     public float[] results = new float[3];
     private AlertDialog.Builder builder;
     public AlertDialog dialog;
-
+    public int time;
     private AlertDialog.Builder buildermaps;
     public AlertDialog dialogmaps;
 
@@ -122,13 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView0);
 
-        /*&ImageButton info=(ImageButton) findViewById(R.id.info);
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,PopInfo.class));
-            }
-        });*/
+        
         builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -540,6 +535,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         sCalendar = Calendar.getInstance();
+         time=sCalendar.get(Calendar.HOUR_OF_DAY);
         dayLongName = sCalendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
          Nomarket=(TextView) findViewById(R.id.nomarket);
            main=(View) findViewById(R.id.main);
@@ -592,8 +588,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
+         if(time>3 && time<12){
+                Greet="Καλημέρα";
+        }
+        else {
+                Greet="Καλησπέρα";
+            }
         greetText = (TextView) findViewById(R.id.greetText);
-        greetText.setText("Καλημέρα, σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
+        greetText.setText(""+Greet+", σήμερα " + dayLongNameGreek + " οι κοντινότερες αγορές είναι:");
         locationtest = findViewById(R.id.locationtest);
 
 
