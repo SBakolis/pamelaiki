@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
         ThursdayList.add(new sMarket("Αθήνα(Ελληνορώσσων)", 00.0, 37.994854, 23.772483));
         ThursdayList.add(new sMarket("Αθήνα(Κυψέλη)", 00.0, 37.995624, 23.738007)); //
         ThursdayList.add(new sMarket("Αθήνα(Προμπονά)", 00.0, 38.026038, 23.735157));
-        ThursdayList.add(new sMarket("Αθήνα(Σεπόλια)", 00.0, 38.000818, 23.717312)); //25/7
+        ThursdayList.add(new sMarket("Αθήνα(Σεπόλια)", 00.0, 38.001085, 23.715833)); // ews?
         ThursdayList.add(new sMarket("Βούλας", 00.0, 37.851104, 23.760300));
         //ThursdayList.add(new sMarket("Νεραϊδα", 00.0, 37.960531, 23.748191)); // 9/7
         ThursdayList.add(new sMarket("Γαλάτσι", 00.0, 38.016511, 23.756531));
@@ -464,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
         SaturdayList.add(new sMarket("Αθήνα(Πλατεία Αττικής)", 00.0, 37.998895, 23.724868)); // 15/9
         SaturdayList.add(new sMarket("Αμαρούσι", 00.0, 38.053557, 23.797641));
         SaturdayList.add(new sMarket("Πολυδρόσο", 00.0, 38.034002, 23.810491));
-        SaturdayList.add(new sMarket("Νέα Ευρυάλη", 00.0, 37.881742, 23.748783)); //20/7
+        SaturdayList.add(new sMarket("Νέα Ευρυάλη", 00.0, 37.874086, 23.750802)); //ews ?
         SaturdayList.add(new sMarket("Ζωοδόχου Πηγής", 00.0, 37.951112, 23.730229));
         SaturdayList.add(new sMarket("Αργυρούπολη(Αργυρούπολη)", 00.0, 37.902726, 23.748494));
         SaturdayList.add(new sMarket("Αργυρούπολη(Αργυρούπολη Π.Π.)", 00.0, 37.918409, 23.749308));
@@ -473,7 +473,7 @@ public class MainActivity extends AppCompatActivity {
         SaturdayList.add(new sMarket("Νέα Ευγενεία", 00.0, 37.955698, 23.619153));
         SaturdayList.add(new sMarket("Κορυδαλλός", 00.0, 37.978836, 23.650401));
         SaturdayList.add(new sMarket("Μεταμόρφωση", 00.0, 38.062461, 23.764212));
-        SaturdayList.add(new sMarket("Περισσός", 00.0, 38.034394, 23.748218)); // 13/7
+        SaturdayList.add(new sMarket("Περισσός", 00.0, 38.033486, 23.749361)); // ews ?
         SaturdayList.add(new sMarket("Κουτσικάρι", 00.0, 37.974331, 23.659206)); // 31/7
         SaturdayList.add(new sMarket("Καλλίπολη", 00.0, 37.931713, 23.631889));
         SaturdayList.add(new sMarket("Μπουρνάζι", 00.0, 38.013657, 23.708943));
