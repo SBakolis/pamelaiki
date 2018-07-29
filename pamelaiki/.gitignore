@@ -3,6 +3,7 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
+/.idea/build_file_checksums.ser
 .DS_Store
 /build
 /captures
