@@ -15,8 +15,8 @@ android {
         applicationId "app.pamelaiki.com"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 18
-        versionName "1.0.8"
+        versionCode 19
+        versionName "1.0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
